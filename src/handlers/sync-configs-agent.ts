@@ -4,7 +4,7 @@ import { targetBuilder } from "../helpers/target-scope";
 import { Context } from "../types";
 import { Scope } from "../types/github";
 
-export async function syncAgent(editorInstruction: string, scope: Scope, context: Context) {
+export async function syncAgent(editorInstruction: string, scope: Scope, context: Context): Promise<string[]> {
   const { logger, config } = context;
 
   //Build target scope could be either (ORG | REPO)
@@ -20,9 +20,19 @@ export async function syncAgent(editorInstruction: string, scope: Scope, context
 
   // Fetch the parse code
   const parserCode = await getFileContent(context, owner, repo, "src/github/types/plugin-configuration.ts");
+  if (!parserCode) throw logger.error("Parser code not found.");
+
+  // PR URLS if multiple targets
+  const prUrls: string[] = [];
   // Run the Repo Config Extractor on the targets (by this point we know the sender has permissions to the targets)
   for (const target of Object.values(targets)) {
-    await processTargetRepos(target, parserCode, editorInstruction, context);
-    console.log(target, parserCode, editorInstruction);
+    try {
+      const prUrl = await processTargetRepos(target, parserCode, editorInstruction, context);
+      if (prUrl) prUrls.push(prUrl);
+    } catch (error) {
+      logger.warn(`Error processing target: ${error} & ${JSON.stringify(target)}`);
+      continue;
+    }
   }
+  return prUrls;
 }

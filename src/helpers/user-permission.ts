@@ -56,6 +56,7 @@ export async function checkUserPermissions(context: Context, scope?: Scope, owne
   }
 
   const hasPermission = await checkUserRepoPermissions(context, owner, repo);
+  logger.info(`User ${sender} has permission for ${owner}/${repo}: ${hasPermission}`);
   if (scope && scope === "REPO") return hasPermission;
 
   // Check user permissions for current organization if scope is not REPO
@@ -65,5 +66,6 @@ export async function checkUserPermissions(context: Context, scope?: Scope, owne
   });
   // eslint-disable-next-line
   // TODO: Handle Privacy Settings for user (hide membership?)
+  logger.info(`User ${sender} is a member of ${owner}: ${orgPermissions.headers.status === "204"}: ${orgPermissions.data}`);
   return orgPermissions.headers.status === "204";
 }

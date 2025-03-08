@@ -1,13 +1,15 @@
-import Anthropic from "@anthropic-ai/sdk";
 import { Context } from "../types";
-import { SuperAnthropic } from "./anthropic/anthropic";
+import { SuperOpenAi } from "./openai/openai";
 import { GitAdapter } from "./git/git";
 import { PullRequest } from "./git/super/actions/pull-request";
+import { Completions } from "./openai/completions";
+import OpenAI from "openai";
 
-export function createAdapters(anthropic: Anthropic, context: Context) {
+export function createAdapters(openai: OpenAI, context: Context) {
   return {
-    anthropic: {
-      super: new SuperAnthropic(anthropic, context),
+    openai: {
+      completions: new Completions(openai, context),
+      super: new SuperOpenAi(openai, context),
     },
     git: {
       super: new GitAdapter(context),

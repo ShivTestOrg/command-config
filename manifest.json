@@ -3,9 +3,9 @@
   "description": "ts-template for UbiquityOS plugins.",
   "ubiquity:listeners": ["issue_comment.created", "pull_request_review_comment.created"],
   "commands": {
-    "hello": {
-      "ubiquity:example": "/hello argument",
-      "description": "Hello command with an argument."
+    "autoedit": {
+      "ubiquity:example": "/autoedit argument",
+      "description": "autoedit command with an argument."
     }
   },
   "configuration": {
@@ -13,7 +13,7 @@
     "type": "object",
     "properties": {
       "parserPath": {
-        "default": "https://github.com/ubiquity-os/ubiquity-os-kernel.git",
+        "default": "https://github.com/ShivTestOrg/ubiquity-os-kernel.git",
         "type": "string"
       },
       "configPath": {
@@ -27,15 +27,7 @@
       "defaultTargets": {
         "default": [
           {
-            "name": "https://github.com/ubiquity/.ubiquity-os.git",
-            "branch": "main"
-          },
-          {
-            "name": "https://github.com/ubiquity-os/.ubiquity-os.git",
-            "branch": "main"
-          },
-          {
-            "name": "https://github.com/ubiquity-os-marketplace/.ubiquity-os.git",
+            "name": "https://github.com/ShivTestOrg/test-public.git",
             "branch": "main"
           }
         ],

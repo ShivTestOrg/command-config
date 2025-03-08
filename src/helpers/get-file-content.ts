@@ -1,6 +1,6 @@
 import { Context } from "../types";
 
-export async function getFileContent(context: Context, owner: string, repo: string, path: string): Promise<string> {
+export async function getFileContent(context: Context, owner: string, repo: string, path: string): Promise<string | undefined> {
   const { octokit, logger } = context;
 
   // Use octokit to fetch the file content
@@ -10,7 +10,7 @@ export async function getFileContent(context: Context, owner: string, repo: stri
     path,
   });
 
-  if (response.status !== 200 || !response.data) throw logger.error(`File not found: ${path}`);
+  if (response.status !== 200 || !response.data) return;
 
   // Check if data is an array or doesn't have content property
   if (Array.isArray(response.data) || !("content" in response.data)) {

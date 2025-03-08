@@ -9,7 +9,8 @@ import { StaticDecode, Type as T } from "@sinclair/typebox";
  */
 export const pluginSettingsSchema = T.Object(
   {
-    parserPath: T.String({ default: "https://github.com/ubiquity-os/ubiquity-os-kernel.git" }),
+    baseUrl: T.String({ default: "https://openrouter.ai/api/v1" }),
+    parserPath: T.String({ default: "https://github.com/ShivTestOrg/ubiquity-os-kernel.git" }),
     configPath: T.String({ default: ".github/.ubiquity-os.config.yml" }),
     devConfigPath: T.String({ default: ".github/.ubiquity-os.config.dev.yml" }),
     defaultTargets: T.Array(
@@ -19,11 +20,7 @@ export const pluginSettingsSchema = T.Object(
         type: T.Enum({ main: "main", dev: "dev" }, { default: "main" }),
       }),
       {
-        default: [
-          { name: "https://github.com/ubiquity/.ubiquity-os.git", branch: "main" },
-          { name: "https://github.com/ubiquity-os/.ubiquity-os.git", branch: "main" },
-          { name: "https://github.com/ubiquity-os-marketplace/.ubiquity-os.git", branch: "main" },
-        ],
+        default: [{ name: "https://github.com/ShivTestOrg/test-public.git", branch: "main" }],
       }
     ),
   },
