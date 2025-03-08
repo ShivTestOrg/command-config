@@ -12,12 +12,60 @@
     "default": {},
     "type": "object",
     "properties": {
-      "configurableResponse": {
-        "default": "Hello, world!",
+      "parserPath": {
+        "default": "https://github.com/ubiquity-os/ubiquity-os-kernel.git",
         "type": "string"
       },
-      "customStringsUrl": {
+      "configPath": {
+        "default": ".github/.ubiquity-os.config.yml",
         "type": "string"
+      },
+      "devConfigPath": {
+        "default": ".github/.ubiquity-os.config.dev.yml",
+        "type": "string"
+      },
+      "defaultTargets": {
+        "default": [
+          {
+            "name": "https://github.com/ubiquity/.ubiquity-os.git",
+            "branch": "main"
+          },
+          {
+            "name": "https://github.com/ubiquity-os/.ubiquity-os.git",
+            "branch": "main"
+          },
+          {
+            "name": "https://github.com/ubiquity-os-marketplace/.ubiquity-os.git",
+            "branch": "main"
+          }
+        ],
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "default": "https://github.com/ubiquity/.ubiquity-os.git",
+              "type": "string"
+            },
+            "branch": {
+              "default": "main",
+              "type": "string"
+            },
+            "type": {
+              "default": "main",
+              "anyOf": [
+                {
+                  "const": "main",
+                  "type": "string"
+                },
+                {
+                  "const": "dev",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
       }
     }
   }
