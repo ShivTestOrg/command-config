@@ -23,8 +23,8 @@ export async function syncConfigs(context: Context) {
   if (command && command.name !== "config") {
     editorInstruction = command.parameters.editorInstruction;
     scope = command.parameters.scope as Scope;
-  } else if (payload.comment.body.trim().startsWith("/autoedit")) {
-    const commentBody = payload.comment.body.trim().replace("/autoedit", "").trim();
+  } else if (payload.comment.body.trim().startsWith("/config")) {
+    const commentBody = payload.comment.body.trim().replace("/config", "").trim();
     const parts = commentBody.split(" ");
     scope = parts[0]?.toUpperCase() === "ORG" ? Scope.ORG : Scope.REPO;
     editorInstruction = parts.slice(1).join(" ");

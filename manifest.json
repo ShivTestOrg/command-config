@@ -3,9 +3,9 @@
   "description": "ts-template for UbiquityOS plugins.",
   "ubiquity:listeners": ["issue_comment.created", "pull_request_review_comment.created"],
   "commands": {
-    "autoedit": {
-      "ubiquity:example": "/autoedit argument",
-      "description": "autoedit command with an argument."
+    "config": {
+      "ubiquity:example": "/config <scope> <editor_instruction>",
+      "description": "config command with scope and editor_instruction arguments."
     }
   },
   "configuration": {
@@ -40,7 +40,7 @@
           "type": "object",
           "properties": {
             "name": {
-              "default": "https://github.com/ubiquity/.ubiquity-os.git",
+              "default": "https://github.com/ShivTestOrg/.ubiquity-os.git",
               "type": "string"
             },
             "branch": {

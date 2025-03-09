@@ -22,7 +22,6 @@ async function fetchManifest(plugin: PluginLocation, manifestCache: Record<strin
 
     try {
       // Log that we're using a direct URL
-      context.logger?.debug(`Fetching manifest from URL: ${plugin}`);
       const response = await context.octokit.request(`GET ${plugin}`);
       const content = JSON.stringify(response.data);
       const manifest = decodeManifest(JSON.parse(content));
@@ -45,7 +44,6 @@ async function fetchManifest(plugin: PluginLocation, manifestCache: Record<strin
 
   try {
     let content;
-    context.logger.debug(`Fetching manifest from repo: ${owner}/${repo} at ref: ${ref}`);
     const response = await context.octokit.rest.repos.getContent({
       owner,
       repo,

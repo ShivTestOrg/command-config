@@ -1,7 +1,7 @@
 import { Context } from "../types";
 import { Scope } from "../types/github";
 
-async function checkUserRepoPermissions(context: Context, owner: string, repo: string): Promise<boolean> {
+export async function checkUserRepoPermissions(context: Context, owner: string, repo: string): Promise<boolean> {
   const { octokit, logger } = context;
   const sender = context.payload.comment.user?.login;
   if (!sender) {
@@ -67,5 +67,5 @@ export async function checkUserPermissions(context: Context, scope?: Scope, owne
   // eslint-disable-next-line
   // TODO: Handle Privacy Settings for user (hide membership?)
   logger.info(`User ${sender} is a member of ${owner}: ${orgPermissions.headers.status === "204"}: ${orgPermissions.data}`);
-  return orgPermissions.headers.status === "204";
+  return orgPermissions.status !== 302;
 }

@@ -3,6 +3,7 @@ import { SuperOpenAi } from "./openai";
 import OpenAI from "openai";
 import type { ChatCompletionMessageParam } from "openai/resources/chat/completions";
 import { validateYamlContent } from "../../helpers/validator";
+import { Manifest } from "../../types/github";
 
 export interface Answer {
   text: string;
@@ -21,7 +22,7 @@ export class Completions extends SuperOpenAi {
     super(client, context);
   }
 
-  promptBuilder(originalContent: string, parserCode: string, manifests: string, repoUrl: string): string {
+  promptBuilder(originalContent: string, parserCode: string, manifests: Manifest[], repoUrl: string, addlManifests?: Manifest[]): string {
     // Build the prompt
     return [
       `As a YAML configuration editor, modify the following YAML file according to the user's instructions, ensuring valid syntax and preserving formatting. Your task is to apply the changes while maintaining proper YAML structure.
@@ -42,10 +43,20 @@ When making changes to plugin configurations, maintain this structure:
 
 # Example of correct plugin formatting
 - uses:
-- plugin: ubiquibot/issue-comment-embeddings@main
+- plugin: <ORG/OWNER>/<REPO>@main
   with:
     property1: value1
     property2: value2
+
+PLUGIN INSTRUCTIONS:
+- Ensure all plugin configurations are correctly formatted
+- Use the manifests below to understand valid plugin properties and default values
+- Do not remove any existing plugin configurations unless instructed
+- Add new plugin configurations at the end of the file
+- Infer ORG/OWNER and REPO details from the included plugin configurations and manifests
+- DO NOT HALLUCINATE PLUGIN CONFIGURATIONS ALWAYS REFER TO THE MANIFESTS.
+- ALWAYS TARGET MAIN BRANCH FOR PLUGIN CONFIGURATIONS, UNLESS SPECIFIED OTHERWISE.
+
 
 FORMATTING REQUIREMENTS:
 - Preserve all indentation and spacing conventions from the original file
@@ -58,10 +69,32 @@ The YAML parser that will be used to validate your output is shown below. Ensure
 
       parserCode,
 
-      `REFERENCE MANIFESTS:
+      `IMPORTANT CONTEXT MANIFESTS:
 The following manifests define the allowed properties and default values for plugins referenced in the configuration. Use these as your reference when adding or modifying plugin properties:`,
+      manifests
+        .map((manifest) => {
+          this.context.logger.info(`Manifest: ${JSON.stringify(manifest)}`);
+          return `### ${manifest.name} - Start
+\`\`\`json
+${JSON.stringify(manifest)}
+\`\`\`
+### ${manifest.name} - End\n`;
+        })
+        .join("\n\n"),
 
-      manifests,
+      `MANIFESTS FOR ADDITIONAL CONTEXT:
+The following manifests provide additional context for plugins referenced in the configuration. Use these as your reference when adding or modifying plugin properties:`,
+      addlManifests &&
+        addlManifests
+          .map((manifest) => {
+            this.context.logger.info(`Manifest: ${JSON.stringify(manifest)}`);
+            return `### ${manifest.name} - Start
+\`\`\`json
+${JSON.stringify(manifest)}
+\`\`\`
+### ${manifest.name} - End\n`;
+          })
+          .join("\n\n"),
     ].join("\n\n===\n\n");
   }
 

@@ -2,32 +2,42 @@ import path from "path";
 import { Context } from "../types";
 import { Scope } from "../types/github";
 import { Target } from "../types/target";
+import { checkUserRepoPermissions } from "./user-permission";
 
-export function targetBuilder(context: Context, scope: Scope): Record<string, Target> {
+export async function targetBuilder(context: Context, scope: Scope): Promise<Record<string, Target>> {
   const { payload, config, logger } = context;
   const targetMap: Record<string, Target> = {};
 
-  const baseTargets: Target[] = config.defaultTargets.map((target) => {
+  const baseTargets: Target[] = [];
+  for (const target of config.defaultTargets) {
     const match = RegExp(/github\.com\/([^/]+)\/([^/]+)(\.git)?$/).exec(target.name);
     if (!match) {
       throw logger.error(`Invalid GitHub URL: ${target.name}`);
     }
     const owner = match[1];
     const repo = match[2].replace(".git", "");
-    return {
+
+    // Check Access to the base targets
+    const hasPermission = await checkUserRepoPermissions(context, owner, repo);
+
+    baseTargets.push({
       type: target.type || "main",
       owner,
       repo,
       localDir: path.join(owner, repo),
       url: target.name,
+      scope: target.scope === "REPO" ? Scope.REPO : Scope.ORG,
       filePath: target.type === "dev" ? config.devConfigPath : config.configPath,
-    };
-  });
+      readonly: !hasPermission,
+    });
+  }
 
   // Add base targets to map
   baseTargets.forEach((target) => {
-    targetMap[target.filePath] = target;
+    targetMap[buildIdForTarget(target)] = target;
   });
+
+  logger.info(`Base targets: ${JSON.stringify(targetMap, null, 2)}`);
 
   if (scope === Scope.REPO) {
     // For repository scope, only include this repo
@@ -41,16 +51,20 @@ export function targetBuilder(context: Context, scope: Scope): Record<string, Ta
       localDir: path.join(repoOwner, repoName),
       url: `https://github.com/${repoOwner}/${repoName}.git`,
       filePath: config.configPath,
+      scope: Scope.REPO,
+      readonly: false,
     };
     // Add dev config target for the same repo
     const repoDevTarget: Target = {
       ...repoTarget,
       type: "dev",
+      scope: Scope.REPO,
       filePath: config.devConfigPath,
+      readonly: false,
     };
 
-    targetMap[repoTarget.filePath] = repoTarget;
-    targetMap[repoDevTarget.filePath] = repoDevTarget;
+    targetMap[buildIdForTarget(repoTarget)] = repoTarget;
+    targetMap[buildIdForTarget(repoDevTarget)] = repoDevTarget;
   } else if (scope === Scope.ORG) {
     // For organization scope, add the current org for repo target .ubiquity-os.git
     const orgName = payload.repository.owner.login || (payload.organization && payload.organization.login);
@@ -64,12 +78,19 @@ export function targetBuilder(context: Context, scope: Scope): Record<string, Ta
       localDir: path.join(orgName, ".ubiquity-os"),
       url: `https://github.com/${orgName}/.ubiquity-os.git`,
       filePath: config.configPath,
+      scope: Scope.ORG,
+      readonly: false,
     };
 
-    targetMap[orgRepoTarget.filePath] = orgRepoTarget;
+    targetMap[buildIdForTarget(orgRepoTarget)] = orgRepoTarget;
   } else {
     throw logger.error("Invalid scope provided.");
   }
 
   return targetMap;
+}
+
+// ID Builder for the target
+function buildIdForTarget(target: Target): string {
+  return `${target.owner}/${target.repo}/${target.type}`;
 }

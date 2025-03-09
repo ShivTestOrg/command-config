@@ -1,14 +1,14 @@
 import { getFileContent } from "../helpers/get-file-content";
-import { processTargetRepos } from "../helpers/process-targets";
+import { fetchAndParseFileContent, processTargetRepos } from "../helpers/process-targets";
 import { targetBuilder } from "../helpers/target-scope";
 import { Context } from "../types";
-import { Scope } from "../types/github";
+import { Manifest, Scope } from "../types/github";
 
 export async function syncAgent(editorInstruction: string, scope: Scope, context: Context): Promise<string[]> {
   const { logger, config } = context;
 
   //Build target scope could be either (ORG | REPO)
-  const targets = targetBuilder(context, scope);
+  const targets = await targetBuilder(context, scope);
 
   // Use the config to get the parser details
   const match = RegExp(/github\.com\/([^/]+)\/([^/]+)(\.git)?$/).exec(config.parserPath);
@@ -24,10 +24,25 @@ export async function syncAgent(editorInstruction: string, scope: Scope, context
 
   // PR URLS if multiple targets
   const prUrls: string[] = [];
-  // Run the Repo Config Extractor on the targets (by this point we know the sender has permissions to the targets)
+
+  // Manifest Cache
+  const manifestStore: Record<string, Manifest> = {};
+
   for (const target of Object.values(targets)) {
     try {
-      const prUrl = await processTargetRepos(target, parserCode, editorInstruction, context);
+      logger.info(`Fetching and parsing file content for target: ${JSON.stringify(target)}`);
+      await fetchAndParseFileContent(context, target, manifestStore);
+    } catch (error) {
+      logger.warn(`Error fetching and parsing file content for target: ${error} & ${JSON.stringify(target)}`);
+      continue;
+    }
+  }
+
+  // Run the Repo Config Extractor on the targets (by this point we know the sender has permissions to the targets)
+  for (const target of Object.values(targets)) {
+    if (target.scope != scope) continue;
+    try {
+      const prUrl = await processTargetRepos(target, parserCode, editorInstruction, context, manifestStore);
       if (prUrl) prUrls.push(prUrl);
     } catch (error) {
       logger.warn(`Error processing target: ${error} & ${JSON.stringify(target)}`);

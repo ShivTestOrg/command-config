@@ -15,12 +15,13 @@ export const pluginSettingsSchema = T.Object(
     devConfigPath: T.String({ default: ".github/.ubiquity-os.config.dev.yml" }),
     defaultTargets: T.Array(
       T.Object({
-        name: T.String({ default: "https://github.com/ubiquity/.ubiquity-os.git" }),
+        name: T.String({ default: "https://github.com/ShivTestOrg/.ubiquity-os.git" }),
         branch: T.String({ default: "main" }),
+        scope: T.Enum({ org: "ORG", repo: "REPO" }, { default: "ORG" }),
         type: T.Enum({ main: "main", dev: "dev" }, { default: "main" }),
       }),
       {
-        default: [{ name: "https://github.com/ShivTestOrg/test-public.git", branch: "main" }],
+        default: [{ name: "https://github.com/ShivTestOrg/.ubiquity-os.git", type: "dev" }],
       }
     ),
   },
