@@ -31,8 +31,8 @@
       "defaultTargets": {
         "default": [
           {
-            "name": "https://github.com/ShivTestOrg/test-public.git",
-            "branch": "main"
+            "name": "https://github.com/ShivTestOrg/.ubiquity-os.git",
+            "type": "dev"
           }
         ],
         "type": "array",
@@ -46,6 +46,19 @@
             "branch": {
               "default": "main",
               "type": "string"
+            },
+            "scope": {
+              "default": "ORG",
+              "anyOf": [
+                {
+                  "const": "ORG",
+                  "type": "string"
+                },
+                {
+                  "const": "REPO",
+                  "type": "string"
+                }
+              ]
             },
             "type": {
               "default": "main",
