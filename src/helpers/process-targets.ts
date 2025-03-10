@@ -27,16 +27,9 @@ export async function processTargetRepos(
   context.logger.info(`Updated file contents: ${JSON.stringify(llmResponse)}`);
   const updatedFileContents = llmResponse.text;
 
-  // eslint-disable-next-line
-  const diffConfirmed = true; // This should be a result of a diff check
-  if (diffConfirmed) {
-    // Apply Changes
-    const { pullRequestUrl } = await applyChanges(target, updatedFileContents, context);
-    context.logger.info(`Pull request created: ${pullRequestUrl}`);
-    return pullRequestUrl;
-  } else {
-    context.logger.info("Changes not confirmed. Skipping the update.");
-  }
+  const { pullRequestUrl } = await applyChanges(target, updatedFileContents, context, editorInstrcution);
+  context.logger.info(`Pull request created: ${pullRequestUrl}`);
+  return pullRequestUrl;
 }
 
 export async function fetchAndParseFileContent(context: Context, target: Target, manifestStore?: Record<string, Manifest>) {

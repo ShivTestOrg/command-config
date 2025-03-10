@@ -45,12 +45,11 @@ export async function syncConfigs(context: Context) {
   } else {
     const pluralSuffix = prUrls.length > 1 ? "s" : "";
     const prList = prUrls
-      .map((url, i) => {
-        const prNumber = url.split("/").pop();
-        return `${i + 1}. [${prNumber}](${url})`;
+      .map((url) => {
+        return `- ${url}`;
       })
       .join("\n");
-    const message = `✅ Successfully created ${prUrls.length} pull request${pluralSuffix}:\n\n${prList}`;
+    const message = `Successfully created ${prUrls.length} pull request${pluralSuffix}:\n\n${prList}`;
     await context.commentHandler.postComment(context, logger.ok(message));
     return { status: 200, reason: logger.info(message).logMessage.raw };
   }

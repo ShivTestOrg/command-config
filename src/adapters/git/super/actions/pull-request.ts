@@ -7,7 +7,7 @@ export class PullRequest extends GitSuper {
     super(context);
   }
 
-  async create(target: Target, fileContent: string, commitMessage: string = "Update file content") {
+  async create(target: Target, fileContent: string, commitMessage: string = "Update file content", editorInstruction: string) {
     const { owner, repo, filePath } = target;
 
     try {
@@ -74,12 +74,12 @@ export class PullRequest extends GitSuper {
       console.log("File updated in branch: ", branchName);
       this._context.logger.info(`File updated in branch: ${branchName}`);
 
-      // Create pull request
+      // Create pull request with initial body
       const { data: pr } = await this._context.octokit.rest.pulls.create({
         owner,
         repo,
         title: `Update ${filePath}`,
-        body: "Automated update using autoedit",
+        body: `${editorInstruction}\n\n* [Update ${filePath} ${owner}/${repo}#${branchName}]`,
         head: branchName,
         base: defaultBranch,
       });
