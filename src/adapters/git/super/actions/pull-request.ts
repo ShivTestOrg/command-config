@@ -69,8 +69,10 @@ export class PullRequest extends GitSuper {
       const { data: pr } = await this._context.octokit.rest.pulls.create({
         owner,
         repo,
-        title: `Update ${filePath}`,
-        body: `Made changes according to:\n\n${editorInstruction}`,
+        title: `chore: update \`${filePath}\``,
+        body: `Update to \`${filePath}\` following this instruction:\n\n
+        
+> ${editorInstruction}`,
         head: branchName,
         base: defaultBranch,
       });
