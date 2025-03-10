@@ -9,25 +9,25 @@ import { fetchManifests } from "./fetch-manifests";
 export async function processTargetRepos(
   target: Target,
   parserCode: string,
-  editorInstrcution: string,
+  editorInstruction: string,
   context: Context,
   manifestStore?: Record<string, Manifest>
 ): Promise<string | undefined> {
-  const { currentFileContents, manifests, addlManifests } = await fetchAndParseFileContent(context, target, manifestStore);
+  const { currentFileContents, manifests, additionalManifests } = await fetchAndParseFileContent(context, target, manifestStore);
 
   // Build Prompt
   const { adapters } = context;
-  const prompt = adapters.openai.completions.promptBuilder(currentFileContents, parserCode, manifests, target.url, addlManifests);
+  const prompt = adapters.openai.completions.promptBuilder(currentFileContents, parserCode, manifests, target.url, additionalManifests);
 
   context.logger.info(`Prompt: ${prompt}`);
   // Update the file with the new content by making a LLM call
-  const llmResponse = await adapters.openai.completions.createCompletions(prompt, editorInstrcution);
+  const llmResponse = await adapters.openai.completions.createCompletions(prompt, editorInstruction);
 
   // Log the updated file contents
   context.logger.info(`Updated file contents: ${JSON.stringify(llmResponse)}`);
   const updatedFileContents = llmResponse.text;
 
-  const { pullRequestUrl } = await applyChanges(target, updatedFileContents, context, editorInstrcution);
+  const { pullRequestUrl } = await applyChanges(target, updatedFileContents, context, editorInstruction);
   context.logger.info(`Pull request created: ${pullRequestUrl}`);
   return pullRequestUrl;
 }
@@ -43,8 +43,8 @@ export async function fetchAndParseFileContent(context: Context, target: Target,
   // Fetch Manifest
   const manifests = await fetchManifests(parsedUrls, manifestCache, context);
   // Fetch Additional Manifests
-  const addlManifests: Manifest[] = filterManifestCacheByOwner(manifestCache, parsedUrls);
-  return { currentFileContents, manifests, addlManifests };
+  const additionalManifests: Manifest[] = filterManifestCacheByOwner(manifestCache, parsedUrls);
+  return { currentFileContents, manifests, additionalManifests };
 }
 
 function filterManifestCacheByOwner(manifestCache: Record<string, Manifest>, target: PluginLocation[]): Manifest[] {

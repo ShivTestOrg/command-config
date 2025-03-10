@@ -22,7 +22,7 @@ export class Completions extends SuperOpenAi {
     super(client, context);
   }
 
-  promptBuilder(originalContent: string, parserCode: string, manifests: Manifest[], repoUrl: string, addlManifests?: Manifest[]): string {
+  promptBuilder(originalContent: string, parserCode: string, manifests: Manifest[], repoUrl: string, additionalManifests?: Manifest[]): string {
     // Build the prompt
     return [
       `As a YAML configuration editor, modify the following YAML file according to the user's instructions, ensuring valid syntax and preserving formatting. Your task is to apply the changes while maintaining proper YAML structure.
@@ -84,8 +84,8 @@ ${JSON.stringify(manifest)}
 
       `MANIFESTS FOR ADDITIONAL CONTEXT:
 The following manifests provide additional context for plugins referenced in the configuration. Use these as your reference when adding or modifying plugin properties:`,
-      addlManifests &&
-        addlManifests
+      additionalManifests &&
+        additionalManifests
           .map((manifest) => {
             this.context.logger.info(`Manifest: ${JSON.stringify(manifest)}`);
             return `### ${manifest.name} - Start

@@ -13,7 +13,7 @@ export const envSchema = T.Object({
   LOG_LEVEL: T.Optional(T.Enum(LOG_LEVEL, { default: LOG_LEVEL.INFO })),
   KERNEL_PUBLIC_KEY: T.Optional(T.String()),
   BASE_URL: T.String({ default: "https://openrouter.ai/api/v1" }),
-  ANTHROPIC_API_KEY: T.String(),
+  OPENROUTER_API_KEY: T.String(),
 });
 
 export type Env = StaticDecode<typeof envSchema>;

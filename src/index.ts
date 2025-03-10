@@ -13,7 +13,7 @@ export async function runPlugin(context: Context) {
   // Create Clients
   const openai = new OpenAI({
     baseURL: config.baseUrl,
-    apiKey: env.ANTHROPIC_API_KEY,
+    apiKey: env.OPENROUTER_API_KEY,
   });
 
   // Set up adapters

@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       parserPath:
-        description: 'Path to the parser configuration'
+        description: "Path to the parser configuration"
         required: true
-        default: 'ubiquity-os/ubiquity-os-kernel'
+        default: "ubiquity-os/ubiquity-os-kernel"
   push:
 
 jobs:
