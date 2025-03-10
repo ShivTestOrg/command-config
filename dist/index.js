@@ -54745,7 +54745,7 @@ function decodeManifest(a) {
   };
 }
 async function processTargetRepos(a, C, q, re, ae) {
-  const { currentFileContents: Ue, manifests: lt, addlManifests: Pt } = await fetchAndParseFileContent(re, a, ae);
+  const { currentFileContents: Ue, manifests: lt, additionalManifests: Pt } = await fetchAndParseFileContent(re, a, ae);
   const { adapters: Wt } = re;
   const Ar = Wt.openai.completions.promptBuilder(Ue, C, lt, a.url, Pt);
   re.logger.info(`Prompt: ${Ar}`);
@@ -54763,7 +54763,7 @@ async function fetchAndParseFileContent(a, C, q) {
   const Ue = q || {};
   const lt = await fetchManifests(ae, Ue, a);
   const Pt = filterManifestCacheByOwner(Ue, ae);
-  return { currentFileContents: re, manifests: lt, addlManifests: Pt };
+  return { currentFileContents: re, manifests: lt, additionalManifests: Pt };
 }
 function filterManifestCacheByOwner(a, C) {
   const q = C.map((a) => (typeof a === "string" ? a : `${a.owner}/${a.repo}/${a.ref}`));
@@ -54883,26 +54883,18 @@ async function syncAgent(a, C, q) {
   return Er;
 }
 async function syncConfigs(a) {
-  const { payload: C, logger: q, eventName: re, command: ae } = a;
+  const { payload: C, logger: q, eventName: re } = a;
   if (C.comment.user?.type === "Bot") {
     throw q.error("Comment is from a bot. Skipping.");
   }
   if (re === "pull_request_review_comment.created") {
     throw q.error("This is a pull request, not supported for now");
   }
-  let Ue;
-  let lt = Scope.REPO;
-  if (ae && ae.name !== "config") {
-    Ue = ae.parameters.editorInstruction;
-    lt = ae.parameters.scope;
-  } else if (C.comment.body.trim().startsWith("/config")) {
-    const a = C.comment.body.trim().replace("/config", "").trim();
-    const q = a.split(" ");
-    lt = q[0]?.toUpperCase() === "ORG" ? Scope.ORG : Scope.REPO;
-    Ue = q.slice(1).join(" ");
-  } else if (!Ue) {
+  const ae = extractEditorInstructionAndScope(a);
+  if (!ae) {
     return { status: 200, reason: q.info("No editor instruction found in comment. Skipping.").logMessage.raw };
   }
+  const { editorInstruction: Ue, scope: lt } = ae;
   if ((await checkUserPermissions(a, lt)) === false) {
     throw q.error("User does not have the required permissions. Skipping.");
   }
@@ -54916,6 +54908,34 @@ async function syncConfigs(a) {
     await a.commentHandler.postComment(a, q.ok(ae));
     return { status: 200, reason: q.info(ae).logMessage.raw };
   }
+}
+function extractEditorInstructionAndScope(a) {
+  const { payload: C, command: q, logger: re } = a;
+  let ae;
+  let Ue;
+  if (q && q.name !== "config") {
+    ae = q.parameters.editorInstruction;
+    Ue = q.parameters.scope;
+  } else if (C.comment.body.trim().startsWith("/config")) {
+    const a = C.comment.body.trim().replace("/config", "").trim();
+    const q = a.split(" ");
+    const lt = q[0]?.toUpperCase();
+    if (!lt || lt.trim() === "") {
+      throw re.error("Scope value cannot be empty. Please provide a valid scope value.");
+    }
+    if (!Object.values(Scope).includes(lt)) {
+      throw re.error(`Invalid scope value: ${lt}. Valid values are: ${Object.values(Scope).join(", ")}`);
+    }
+    Ue = lt === Scope.ORG ? Scope.ORG : Scope.REPO;
+    ae = q.slice(1).join(" ");
+  } else {
+    return null;
+  }
+  console.log("Scope: ", Ue);
+  if (!ae || ae.trim() === "") {
+    throw re.error("Editor instruction cannot be empty. Please provide editing instructions.");
+  }
+  return { editorInstruction: ae, scope: Ue };
 }
 function isCommentEvent(a) {
   return a.eventName === "issue_comment.created" || a.eventName === "pull_request_review_comment.created";
@@ -60087,7 +60107,7 @@ const API_KEY_SENTINEL = "<Missing Key>";
 const node_modules_openai = OpenAI;
 async function runPlugin(a) {
   const { logger: C, config: q, eventName: re, env: ae } = a;
-  const Ue = new node_modules_openai({ baseURL: q.baseUrl, apiKey: ae.ANTHROPIC_API_KEY });
+  const Ue = new node_modules_openai({ baseURL: q.baseUrl, apiKey: ae.OPENROUTER_API_KEY });
   a.adapters = createAdapters(Ue, a);
   if (isCommentEvent(a)) {
     return await syncConfigs(a);
@@ -60099,7 +60119,7 @@ const envSchema = Type.Object({
   LOG_LEVEL: Type.Optional(Type.Enum(LOG_LEVEL, { default: LOG_LEVEL.INFO })),
   KERNEL_PUBLIC_KEY: Type.Optional(Type.String()),
   BASE_URL: Type.String({ default: "https://openrouter.ai/api/v1" }),
-  ANTHROPIC_API_KEY: Type.String(),
+  OPENROUTER_API_KEY: Type.String(),
 });
 const pluginSettingsSchema = Type.Object(
   {
