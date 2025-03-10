@@ -32,7 +32,6 @@
     "open-source"
   ],
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.39.0",
     "@sinclair/typebox": "0.34.15",
     "@ubiquity-os/plugin-sdk": "^3.0.0",
     "@ubiquity-os/ubiquity-os-logger": "^1.4.0",
