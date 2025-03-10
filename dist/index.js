@@ -12728,8 +12728,8 @@ var __webpack_modules__ = {
     const Hr = q(8425);
     const Yr = q(3345);
     const Jr = q(640);
-    const Kr = q(675);
-    const Wr = q(8946);
+    const Wr = q(675);
+    const Kr = q(8946);
     const $r = q(420);
     const zr = q(3107);
     const Xr = q(470);
@@ -12744,10 +12744,10 @@ var __webpack_modules__ = {
     const An = q(3339);
     class JsonTypeBuilder {
       ReadonlyOptional(a) {
-        return (0, Wr.ReadonlyOptional)(a);
+        return (0, Kr.ReadonlyOptional)(a);
       }
       Readonly(a, C) {
-        return (0, Kr.Readonly)(a, C ?? true);
+        return (0, Wr.Readonly)(a, C ?? true);
       }
       Optional(a, C) {
         return (0, Hr.Optional)(a, C ?? true);
@@ -13129,18 +13129,18 @@ var __webpack_modules__ = {
         return Jr.Module;
       },
     });
-    var Kr = q(4025);
+    var Wr = q(4025);
     Object.defineProperty(C, "Never", {
       enumerable: true,
       get: function () {
-        return Kr.Never;
+        return Wr.Never;
       },
     });
-    var Wr = q(1078);
+    var Kr = q(1078);
     Object.defineProperty(C, "Not", {
       enumerable: true,
       get: function () {
-        return Wr.Not;
+        return Kr.Not;
       },
     });
     var $r = q(468);
@@ -18259,8 +18259,8 @@ var __webpack_modules__ = {
       };
       var Yr = Hr;
       var Jr = "2.19.5";
-      var Kr = { version: Jr };
-      var Wr = Object.freeze({ version: Jr, default: Kr });
+      var Wr = { version: Jr };
+      var Kr = Object.freeze({ version: Jr, default: Wr });
       var require$$2 = () => console.log("You must import the full version of Bottleneck in order to use this feature.");
       var require$$3 = () => console.log("You must import the full version of Bottleneck in order to use this feature.");
       var require$$4 = () => console.log("You must import the full version of Bottleneck in order to use this feature.");
@@ -18432,7 +18432,7 @@ var __webpack_modules__ = {
       }.call(a);
       var an = nn;
       var require$$4$1 = () => console.log("You must import the full version of Bottleneck in order to use this feature.");
-      var An = getCjsExportFromNamespace(Wr);
+      var An = getCjsExportFromNamespace(Kr);
       var ln,
         cn,
         pn,
@@ -20538,12 +20538,12 @@ var __webpack_modules__ = {
     AbortError.prototype.name = "AbortError";
     const Yr = Ue.URL || lt.URL;
     const Jr = re.PassThrough;
-    const Kr = function isDomainOrSubdomain(a, C) {
+    const Wr = function isDomainOrSubdomain(a, C) {
       const q = new Yr(C).hostname;
       const re = new Yr(a).hostname;
       return q === re || (q[q.length - re.length - 1] === "." && q.endsWith(re));
     };
-    const Wr = function isSameProtocol(a, C) {
+    const Kr = function isSameProtocol(a, C) {
       const q = new Yr(C).protocol;
       const re = new Yr(a).protocol;
       return q === re;
@@ -20671,7 +20671,7 @@ var __webpack_modules__ = {
                   timeout: lt.timeout,
                   size: lt.size,
                 };
-                if (!Kr(lt.url, ae) || !Wr(lt.url, ae)) {
+                if (!Wr(lt.url, ae) || !Kr(lt.url, ae)) {
                   for (const a of ["authorization", "www-authenticate", "cookie", "cookie2"]) {
                     re.headers.delete(a);
                   }
@@ -23863,8 +23863,8 @@ var __webpack_modules__ = {
       kServerName: Hr,
       kClient: Yr,
       kBusy: Jr,
-      kParser: Kr,
-      kConnect: Wr,
+      kParser: Wr,
+      kConnect: Kr,
       kBlocking: $r,
       kResuming: zr,
       kRunning: Xr,
@@ -23900,9 +23900,9 @@ var __webpack_modules__ = {
       kInterceptors: Rn,
       kLocalAddress: Sn,
       kMaxResponseSize: Fn,
-      kHTTPConnVersion: Dn,
-      kHost: kn,
-      kHTTP2Session: On,
+      kHTTPConnVersion: On,
+      kHost: Dn,
+      kHTTP2Session: kn,
       kHTTP2SessionState: Pn,
       kHTTP2BuildRequest: Nn,
       kHTTP2CopyHeaders: Un,
@@ -23926,8 +23926,8 @@ var __webpack_modules__ = {
       },
     } = Mn;
     let Jn = false;
-    const Kn = Buffer[Symbol.species];
-    const Wn = Symbol("kClosedResolve");
+    const Wn = Buffer[Symbol.species];
+    const Kn = Symbol("kClosedResolve");
     const $n = {};
     try {
       const a = q(1637);
@@ -23966,8 +23966,8 @@ var __webpack_modules__ = {
           maxRedirections: jr,
           connect: Yr,
           maxRequestsPerClient: Jr,
-          localAddress: Kr,
-          maxResponseSize: Wr,
+          localAddress: Wr,
+          maxResponseSize: Kr,
           autoSelectFamily: $r,
           autoSelectFamilyAttemptTimeout: Xr,
           allowH2: Zr,
@@ -24023,10 +24023,10 @@ var __webpack_modules__ = {
         if (Jr != null && (!Number.isInteger(Jr) || Jr < 0)) {
           throw new Qr("maxRequestsPerClient must be a positive number");
         }
-        if (Kr != null && (typeof Kr !== "string" || ae.isIP(Kr) === 0)) {
+        if (Wr != null && (typeof Wr !== "string" || ae.isIP(Wr) === 0)) {
           throw new Qr("localAddress must be valid string IP address");
         }
-        if (Wr != null && (!Number.isInteger(Wr) || Wr < -1)) {
+        if (Kr != null && (!Number.isInteger(Kr) || Kr < -1)) {
           throw new Qr("maxResponseSize must be a positive number");
         }
         if (Xr != null && (!Number.isInteger(Xr) || Xr < -1)) {
@@ -24060,7 +24060,7 @@ var __webpack_modules__ = {
         this[En] = Pr == null ? 1e3 : Pr;
         this[fn] = this[An];
         this[Hr] = null;
-        this[Sn] = Kr != null ? Kr : null;
+        this[Sn] = Wr != null ? Wr : null;
         this[zr] = 0;
         this[on] = 0;
         this[ln] = `host: ${this[Vr].hostname}${this[Vr].port ? `:${this[Vr].port}` : ""}\r\n`;
@@ -24069,12 +24069,12 @@ var __webpack_modules__ = {
         this[Cn] = Mr == null ? true : Mr;
         this[_n] = jr;
         this[Bn] = Jr;
-        this[Wn] = null;
-        this[Fn] = Wr > -1 ? Wr : -1;
-        this[Dn] = "h1";
-        this[On] = null;
+        this[Kn] = null;
+        this[Fn] = Kr > -1 ? Kr : -1;
+        this[On] = "h1";
+        this[kn] = null;
         this[Pn] = !Zr ? null : { openStreams: 0, maxConcurrentStreams: en != null ? en : 100 };
-        this[kn] = `${this[Vr].hostname}${this[Vr].port ? `:${this[Vr].port}` : ""}`;
+        this[Dn] = `${this[Vr].hostname}${this[Vr].port ? `:${this[Vr].port}` : ""}`;
         this[rn] = [];
         this[pn] = 0;
         this[cn] = 0;
@@ -24102,13 +24102,13 @@ var __webpack_modules__ = {
         const a = this[mn];
         return (a && (a[jr] || a[tn] || a[$r])) || this[en] >= (this[dn] || 1) || this[Zr] > 0;
       }
-      [Wr](a) {
+      [Kr](a) {
         connect(this);
         this.once("connect", a);
       }
       [Tn](a, C) {
         const q = a.origin || this[Vr].origin;
-        const re = this[Dn] === "h2" ? Ar[Nn](q, a, C) : Ar[Ln](q, a, C);
+        const re = this[On] === "h2" ? Ar[Nn](q, a, C) : Ar[Ln](q, a, C);
         this[rn].push(re);
         if (this[zr]) {
         } else if (Pt.bodyLength(re.body) == null && Pt.isIterable(re.body)) {
@@ -24127,7 +24127,7 @@ var __webpack_modules__ = {
           if (!this[en]) {
             a(null);
           } else {
-            this[Wn] = a;
+            this[Kn] = a;
           }
         });
       }
@@ -24139,15 +24139,15 @@ var __webpack_modules__ = {
             errorRequest(this, re, a);
           }
           const callback = () => {
-            if (this[Wn]) {
-              this[Wn]();
-              this[Wn] = null;
+            if (this[Kn]) {
+              this[Kn]();
+              this[Kn] = null;
             }
             C();
           };
-          if (this[On] != null) {
-            Pt.destroy(this[On], a);
-            this[On] = null;
+          if (this[kn] != null) {
+            Pt.destroy(this[kn], a);
+            this[kn] = null;
             this[Pn] = null;
           }
           if (!this[mn]) {
@@ -24179,7 +24179,7 @@ var __webpack_modules__ = {
       const C = this[Yr];
       const q = new Nr(`HTTP/2: "GOAWAY" frame received with code ${a}`);
       C[mn] = null;
-      C[On] = null;
+      C[kn] = null;
       if (C.destroyed) {
         re(this[Zr] === 0);
         const a = C[rn].splice(C[pn]);
@@ -24214,7 +24214,7 @@ var __webpack_modules__ = {
           wasm_on_status: (a, C, q) => {
             re.strictEqual(rs.ptr, a);
             const ae = C - os + ns.byteOffset;
-            return rs.onStatus(new Kn(ns.buffer, ae, q)) || 0;
+            return rs.onStatus(new Wn(ns.buffer, ae, q)) || 0;
           },
           wasm_on_message_begin: (a) => {
             re.strictEqual(rs.ptr, a);
@@ -24223,12 +24223,12 @@ var __webpack_modules__ = {
           wasm_on_header_field: (a, C, q) => {
             re.strictEqual(rs.ptr, a);
             const ae = C - os + ns.byteOffset;
-            return rs.onHeaderField(new Kn(ns.buffer, ae, q)) || 0;
+            return rs.onHeaderField(new Wn(ns.buffer, ae, q)) || 0;
           },
           wasm_on_header_value: (a, C, q) => {
             re.strictEqual(rs.ptr, a);
             const ae = C - os + ns.byteOffset;
-            return rs.onHeaderValue(new Kn(ns.buffer, ae, q)) || 0;
+            return rs.onHeaderValue(new Wn(ns.buffer, ae, q)) || 0;
           },
           wasm_on_headers_complete: (a, C, q, ae) => {
             re.strictEqual(rs.ptr, a);
@@ -24237,7 +24237,7 @@ var __webpack_modules__ = {
           wasm_on_body: (a, C, q) => {
             re.strictEqual(rs.ptr, a);
             const ae = C - os + ns.byteOffset;
-            return rs.onBody(new Kn(ns.buffer, ae, q)) || 0;
+            return rs.onBody(new Wn(ns.buffer, ae, q)) || 0;
           },
           wasm_on_message_complete: (a) => {
             re.strictEqual(rs.ptr, a);
@@ -24443,8 +24443,8 @@ var __webpack_modules__ = {
         this.headers = [];
         this.headersSize = 0;
         ae.unshift(a);
-        ae[Kr].destroy();
-        ae[Kr] = null;
+        ae[Wr].destroy();
+        ae[Wr] = null;
         ae[Yr] = null;
         ae[un] = null;
         ae.removeListener("error", onSocketError)
@@ -24621,15 +24621,15 @@ var __webpack_modules__ = {
       }
     }
     function onSocketReadable() {
-      const { [Kr]: a } = this;
+      const { [Wr]: a } = this;
       if (a) {
         a.readMore();
       }
     }
     function onSocketError(a) {
-      const { [Yr]: C, [Kr]: q } = this;
+      const { [Yr]: C, [Wr]: q } = this;
       re(a.code !== "ERR_TLS_CERT_ALTNAME_INVALID");
-      if (C[Dn] !== "h2") {
+      if (C[On] !== "h2") {
         if (a.code === "ECONNRESET" && q.statusCode && !q.shouldKeepAlive) {
           q.onMessageComplete();
           return;
@@ -24650,8 +24650,8 @@ var __webpack_modules__ = {
       }
     }
     function onSocketEnd() {
-      const { [Kr]: a, [Yr]: C } = this;
-      if (C[Dn] !== "h2") {
+      const { [Wr]: a, [Yr]: C } = this;
+      if (C[On] !== "h2") {
         if (a.statusCode && !a.shouldKeepAlive) {
           a.onMessageComplete();
           return;
@@ -24660,13 +24660,13 @@ var __webpack_modules__ = {
       Pt.destroy(this, new Pr("other side closed", Pt.getSocketInfo(this)));
     }
     function onSocketClose() {
-      const { [Yr]: a, [Kr]: C } = this;
-      if (a[Dn] === "h1" && C) {
+      const { [Yr]: a, [Wr]: C } = this;
+      if (a[On] === "h1" && C) {
         if (!this[un] && C.statusCode && !C.shouldKeepAlive) {
           C.onMessageComplete();
         }
-        this[Kr].destroy();
-        this[Kr] = null;
+        this[Wr].destroy();
+        this[Wr] = null;
       }
       const q = this[un] || new Pr("closed", Pt.getSocketInfo(this));
       a[mn] = null;
@@ -24728,7 +24728,7 @@ var __webpack_modules__ = {
             process.emitWarning("H2 support is experimental, expect them to change at any time.", { code: "UNDICI-H2" });
           }
           const C = Mn.connect(a[Vr], { createConnection: () => ae, peerMaxConcurrentStreams: a[Pn].maxConcurrentStreams });
-          a[Dn] = "h2";
+          a[On] = "h2";
           C[Yr] = a;
           C[mn] = ae;
           C.on("error", onHttp2SessionError);
@@ -24737,8 +24737,8 @@ var __webpack_modules__ = {
           C.on("goaway", onHTTP2GoAway);
           C.on("close", onSocketClose);
           C.unref();
-          a[On] = C;
-          ae[On] = C;
+          a[kn] = C;
+          ae[kn] = C;
         } else {
           if (!es) {
             es = await ts;
@@ -24748,7 +24748,7 @@ var __webpack_modules__ = {
           ae[tn] = false;
           ae[jr] = false;
           ae[$r] = false;
-          ae[Kr] = new Parser(a, ae, es);
+          ae[Wr] = new Parser(a, ae, es);
         }
         ae[wn] = 0;
         ae[Bn] = a[Bn];
@@ -24812,9 +24812,9 @@ var __webpack_modules__ = {
           re(a[Zr] === 0);
           return;
         }
-        if (a[Wn] && !a[en]) {
-          a[Wn]();
-          a[Wn] = null;
+        if (a[Kn] && !a[en]) {
+          a[Kn]();
+          a[Kn] = null;
           return;
         }
         const q = a[mn];
@@ -24829,14 +24829,14 @@ var __webpack_modules__ = {
             q[an] = false;
           }
           if (a[en] === 0) {
-            if (q[Kr].timeoutType !== As) {
-              q[Kr].setTimeout(a[fn], As);
+            if (q[Wr].timeoutType !== As) {
+              q[Wr].setTimeout(a[fn], As);
             }
-          } else if (a[Xr] > 0 && q[Kr].statusCode < 200) {
-            if (q[Kr].timeoutType !== is) {
+          } else if (a[Xr] > 0 && q[Wr].statusCode < 200) {
+            if (q[Wr].timeoutType !== is) {
               const C = a[rn][a[pn]];
               const re = C.headersTimeout != null ? C.headersTimeout : a[In];
-              q[Kr].setTimeout(re, is);
+              q[Wr].setTimeout(re, is);
             }
           }
         }
@@ -24871,7 +24871,7 @@ var __webpack_modules__ = {
         if (a[sn]) {
           return;
         }
-        if (!q && !a[On]) {
+        if (!q && !a[kn]) {
           connect(a);
           return;
         }
@@ -24898,8 +24898,8 @@ var __webpack_modules__ = {
       return a !== "GET" && a !== "HEAD" && a !== "OPTIONS" && a !== "TRACE" && a !== "CONNECT";
     }
     function write(a, C) {
-      if (a[Dn] === "h2") {
-        writeH2(a, a[On], C);
+      if (a[On] === "h2") {
+        writeH2(a, a[kn], C);
         return;
       }
       const { body: q, method: ae, path: Ue, host: lt, upgrade: Wt, headers: Ar, blocking: Er, reset: Br } = C;
@@ -25029,7 +25029,7 @@ var __webpack_modules__ = {
       }
       let Pr;
       const Ur = a[Pn];
-      kr[xn] = Wt || a[kn];
+      kr[xn] = Wt || a[Dn];
       kr[Gn] = Ue;
       if (Ue === "CONNECT") {
         C.ref();
@@ -25105,7 +25105,7 @@ var __webpack_modules__ = {
         }
       });
       Pr.once("error", function (C) {
-        if (a[On] && !a[On].destroyed && !this.closed && !this.destroyed) {
+        if (a[kn] && !a[kn].destroyed && !this.closed && !this.destroyed) {
           Ur.streams -= 1;
           Pt.destroy(Pr, C);
         }
@@ -25113,7 +25113,7 @@ var __webpack_modules__ = {
       Pr.once("frameError", (C, re) => {
         const ae = new Nr(`HTTP/2: "frameError" received - type ${C}, code ${re}`);
         errorRequest(a, q, ae);
-        if (a[On] && !a[On].destroyed && !this.closed && !this.destroyed) {
+        if (a[kn] && !a[kn].destroyed && !this.closed && !this.destroyed) {
           Ur.streams -= 1;
           Pt.destroy(Pr, ae);
         }
@@ -25147,7 +25147,7 @@ var __webpack_modules__ = {
     }
     function writeStream({ h2stream: a, body: C, client: q, request: ae, socket: Ue, contentLength: Wt, header: Ar, expectsPayload: Er }) {
       re(Wt !== 0 || q[Xr] === 0, "stream body cannot be pipelined");
-      if (q[Dn] === "h2") {
+      if (q[On] === "h2") {
         const Qr = lt(C, a, (q) => {
           if (q) {
             Pt.destroy(C, q);
@@ -25225,7 +25225,7 @@ var __webpack_modules__ = {
     }
     async function writeBlob({ h2stream: a, body: C, client: q, request: ae, socket: Ue, contentLength: lt, header: Wt, expectsPayload: Ar }) {
       re(lt === C.size, "blob body must have content length");
-      const Er = q[Dn] === "h2";
+      const Er = q[On] === "h2";
       try {
         if (lt != null && lt !== C.size) {
           throw new Ir();
@@ -25270,7 +25270,7 @@ var __webpack_modules__ = {
             Ar = a;
           }
         });
-      if (q[Dn] === "h2") {
+      if (q[On] === "h2") {
         a.on("close", onDrain).on("drain", onDrain);
         try {
           for await (const q of C) {
@@ -25358,9 +25358,9 @@ var __webpack_modules__ = {
         C.uncork();
         q.onBodySent(a);
         if (!Ar) {
-          if (C[Kr].timeout && C[Kr].timeoutType === is) {
-            if (C[Kr].timeout.refresh) {
-              C[Kr].timeout.refresh();
+          if (C[Wr].timeout && C[Wr].timeoutType === is) {
+            if (C[Wr].timeout.refresh) {
+              C[Wr].timeout.refresh();
             }
           }
         }
@@ -25392,9 +25392,9 @@ var __webpack_modules__ = {
             process.emitWarning(new Ir());
           }
         }
-        if (a[Kr].timeout && a[Kr].timeoutType === is) {
-          if (a[Kr].timeout.refresh) {
-            a[Kr].timeout.refresh();
+        if (a[Wr].timeout && a[Wr].timeoutType === is) {
+          if (a[Wr].timeout.refresh) {
+            a[Wr].timeout.refresh();
           }
         }
         resume(q);
@@ -27251,8 +27251,8 @@ var __webpack_modules__ = {
     }
     let Yr = globalThis.ReadableStream;
     const Jr = Pr ?? Gr;
-    const Kr = new TextEncoder();
-    const Wr = new TextDecoder();
+    const Wr = new TextEncoder();
+    const Kr = new TextDecoder();
     function extractBody(a, C = false) {
       if (!Yr) {
         Yr = q(3774).ReadableStream;
@@ -27265,7 +27265,7 @@ var __webpack_modules__ = {
       } else {
         re = new Yr({
           async pull(a) {
-            a.enqueue(typeof Er === "string" ? Kr.encode(Er) : Er);
+            a.enqueue(typeof Er === "string" ? Wr.encode(Er) : Er);
             queueMicrotask(() => Wt(a));
           },
           start() {},
@@ -27299,11 +27299,11 @@ var __webpack_modules__ = {
         let Ue = false;
         for (const [C, lt] of a) {
           if (typeof lt === "string") {
-            const a = Kr.encode(q + `; name="${escape(normalizeLinefeeds(C))}"` + `\r\n\r\n${normalizeLinefeeds(lt)}\r\n`);
+            const a = Wr.encode(q + `; name="${escape(normalizeLinefeeds(C))}"` + `\r\n\r\n${normalizeLinefeeds(lt)}\r\n`);
             re.push(a);
             Ir += a.byteLength;
           } else {
-            const a = Kr.encode(
+            const a = Wr.encode(
               `${q}; name="${escape(normalizeLinefeeds(C))}"` +
                 (lt.name ? `; filename="${escape(lt.name)}"` : "") +
                 "\r\n" +
@@ -27317,7 +27317,7 @@ var __webpack_modules__ = {
             }
           }
         }
-        const lt = Kr.encode(`--${C}--`);
+        const lt = Wr.encode(`--${C}--`);
         re.push(lt);
         Ir += lt.byteLength;
         if (Ue) {
@@ -27558,7 +27558,7 @@ var __webpack_modules__ = {
       if (a[0] === 239 && a[1] === 187 && a[2] === 191) {
         a = a.subarray(3);
       }
-      const C = Wr.decode(a);
+      const C = Kr.decode(a);
       return C;
     }
     function parseJSONFromBytes(a) {
@@ -28587,8 +28587,8 @@ var __webpack_modules__ = {
       determineRequestsReferrer: Hr,
       coarsenedSharedCurrentTime: Yr,
       createDeferredPromise: Jr,
-      isBlobLike: Kr,
-      sameOrigin: Wr,
+      isBlobLike: Wr,
+      sameOrigin: Kr,
       isCancelled: $r,
       isAborted: zr,
       isErrorLike: Xr,
@@ -28611,9 +28611,9 @@ var __webpack_modules__ = {
     const { TransformStream: Rn } = q(3774);
     const { getGlobalDispatcher: Sn } = q(2581);
     const { webidl: Fn } = q(4222);
-    const { STATUS_CODES: Dn } = q(8611);
-    const kn = ["GET", "HEAD"];
-    let On;
+    const { STATUS_CODES: On } = q(8611);
+    const Dn = ["GET", "HEAD"];
+    let kn;
     let Pn = globalThis.ReadableStream;
     class Fetch extends In {
       constructor(a) {
@@ -28832,7 +28832,7 @@ var __webpack_modules__ = {
       if (re === null) {
         re = await (async () => {
           const C = Ur(q);
-          if ((Wr(C, q.url) && q.responseTainting === "basic") || C.protocol === "data:" || q.mode === "navigate" || q.mode === "websocket") {
+          if ((Kr(C, q.url) && q.responseTainting === "basic") || C.protocol === "data:" || q.mode === "navigate" || q.mode === "websocket") {
             q.responseTainting = "basic";
             return await schemeFetch(a);
           }
@@ -28913,15 +28913,15 @@ var __webpack_modules__ = {
           return Promise.resolve(ae("about scheme is not supported"));
         }
         case "blob:": {
-          if (!On) {
-            On = q(181).resolveObjectURL;
+          if (!kn) {
+            kn = q(181).resolveObjectURL;
           }
           const a = Ur(C);
           if (a.search.length !== 0) {
             return Promise.resolve(ae("NetworkError when attempting to fetch resource."));
           }
-          const re = On(a.toString());
-          if (C.method !== "GET" || !Kr(re)) {
+          const re = kn(a.toString());
+          if (C.method !== "GET" || !Wr(re)) {
             return Promise.resolve(ae("invalid method"));
           }
           const Ue = pn(re);
@@ -29069,7 +29069,7 @@ var __webpack_modules__ = {
         return Promise.resolve(ae("redirect count exceeded"));
       }
       q.redirectCount += 1;
-      if (q.mode === "cors" && (Ue.username || Ue.password) && !Wr(q, Ue)) {
+      if (q.mode === "cors" && (Ue.username || Ue.password) && !Kr(q, Ue)) {
         return Promise.resolve(ae('cross origin not allowed for request mode "cors"'));
       }
       if (q.responseTainting === "cors" && (Ue.username || Ue.password)) {
@@ -29078,14 +29078,14 @@ var __webpack_modules__ = {
       if (re.status !== 303 && q.body != null && q.body.source == null) {
         return Promise.resolve(ae());
       }
-      if (([301, 302].includes(re.status) && q.method === "POST") || (re.status === 303 && !kn.includes(q.method))) {
+      if (([301, 302].includes(re.status) && q.method === "POST") || (re.status === 303 && !Dn.includes(q.method))) {
         q.method = "GET";
         q.body = null;
         for (const a of fn) {
           q.headersList.delete(a);
         }
       }
-      if (!Wr(Ur(q), Ue)) {
+      if (!Kr(Ur(q), Ue)) {
         q.headersList.delete("authorization");
         q.headersList.delete("proxy-authorization", true);
         q.headersList.delete("cookie");
@@ -29495,7 +29495,7 @@ var __webpack_modules__ = {
                   const ae = C[a + 1].toString("latin1");
                   re[En].append(q, ae);
                 }
-                ae({ status: a, statusText: Dn[a], headersList: re[En], socket: q });
+                ae({ status: a, statusText: On[a], headersList: re[En], socket: q });
                 return true;
               },
             }
@@ -29522,8 +29522,8 @@ var __webpack_modules__ = {
       requestDuplex: Gr,
     } = q(7326);
     const { kEnumerableProperty: Vr } = Er;
-    const { kHeaders: jr, kSignal: Hr, kState: Yr, kGuard: Jr, kRealm: Kr } = q(9710);
-    const { webidl: Wr } = q(4222);
+    const { kHeaders: jr, kSignal: Hr, kState: Yr, kGuard: Jr, kRealm: Wr } = q(9710);
+    const { webidl: Kr } = q(4222);
     const { getGlobalOrigin: $r } = q(5628);
     const { URLSerializer: zr } = q(4322);
     const { kHeadersList: Xr, kConstruct: Zr } = q(6443);
@@ -29539,10 +29539,10 @@ var __webpack_modules__ = {
         if (a === Zr) {
           return;
         }
-        Wr.argumentLengthCheck(arguments, 1, { header: "Request constructor" });
-        a = Wr.converters.RequestInfo(a);
-        C = Wr.converters.RequestInit(C);
-        this[Kr] = {
+        Kr.argumentLengthCheck(arguments, 1, { header: "Request constructor" });
+        a = Kr.converters.RequestInfo(a);
+        C = Kr.converters.RequestInit(C);
+        this[Wr] = {
           settingsObject: {
             baseUrl: $r(),
             get origin() {
@@ -29553,7 +29553,7 @@ var __webpack_modules__ = {
         };
         let ae = null;
         let Ue = null;
-        const Ar = this[Kr].settingsObject.baseUrl;
+        const Ar = this[Wr].settingsObject.baseUrl;
         let Nr = null;
         if (typeof a === "string") {
           let C;
@@ -29572,7 +29572,7 @@ var __webpack_modules__ = {
           ae = a[Yr];
           Nr = a[Hr];
         }
-        const Ur = this[Kr].settingsObject.origin;
+        const Ur = this[Wr].settingsObject.origin;
         let Lr = "client";
         if (ae.window?.constructor?.name === "EnvironmentSettingsObject" && Br(ae.window, Ur)) {
           Lr = ae.window;
@@ -29587,7 +29587,7 @@ var __webpack_modules__ = {
           method: ae.method,
           headersList: ae.headersList,
           unsafeRequest: ae.unsafeRequest,
-          client: this[Kr].settingsObject,
+          client: this[Wr].settingsObject,
           window: Lr,
           priority: ae.priority,
           origin: ae.origin,
@@ -29627,7 +29627,7 @@ var __webpack_modules__ = {
             } catch (C) {
               throw new TypeError(`Referrer "${a}" is not a valid URL.`, { cause: C });
             }
-            if ((C.protocol === "about:" && C.hostname === "client") || (Ur && !Br(C, this[Kr].settingsObject.baseUrl))) {
+            if ((C.protocol === "about:" && C.hostname === "client") || (Ur && !Br(C, this[Wr].settingsObject.baseUrl))) {
               ae.referrer = "client";
             } else {
               ae.referrer = C;
@@ -29644,7 +29644,7 @@ var __webpack_modules__ = {
           xr = Ue;
         }
         if (xr === "navigate") {
-          throw Wr.errors.exception({ header: "Request constructor", message: "invalid request mode navigate." });
+          throw Kr.errors.exception({ header: "Request constructor", message: "invalid request mode navigate." });
         }
         if (xr != null) {
           ae.mode = xr;
@@ -29684,7 +29684,7 @@ var __webpack_modules__ = {
         this[Yr] = ae;
         const Gr = new AbortController();
         this[Hr] = Gr.signal;
-        this[Hr][Kr] = this[Kr];
+        this[Hr][Wr] = this[Wr];
         if (Nr != null) {
           if (!Nr || typeof Nr.aborted !== "boolean" || typeof Nr.addEventListener !== "function") {
             throw new TypeError("Failed to construct 'Request': member signal is not of type AbortSignal.");
@@ -29714,7 +29714,7 @@ var __webpack_modules__ = {
         this[jr] = new lt(Zr);
         this[jr][Xr] = ae.headersList;
         this[jr][Jr] = "request";
-        this[jr][Kr] = this[Kr];
+        this[jr][Wr] = this[Wr];
         if (xr === "no-cors") {
           if (!Pr.has(ae.method)) {
             throw new TypeError(`'${ae.method} is unsupported in no-cors mode.`);
@@ -29771,23 +29771,23 @@ var __webpack_modules__ = {
         this[Yr].body = cn;
       }
       get method() {
-        Wr.brandCheck(this, Request);
+        Kr.brandCheck(this, Request);
         return this[Yr].method;
       }
       get url() {
-        Wr.brandCheck(this, Request);
+        Kr.brandCheck(this, Request);
         return zr(this[Yr].url);
       }
       get headers() {
-        Wr.brandCheck(this, Request);
+        Kr.brandCheck(this, Request);
         return this[jr];
       }
       get destination() {
-        Wr.brandCheck(this, Request);
+        Kr.brandCheck(this, Request);
         return this[Yr].destination;
       }
       get referrer() {
-        Wr.brandCheck(this, Request);
+        Kr.brandCheck(this, Request);
         if (this[Yr].referrer === "no-referrer") {
           return "";
         }
@@ -29797,69 +29797,69 @@ var __webpack_modules__ = {
         return this[Yr].referrer.toString();
       }
       get referrerPolicy() {
-        Wr.brandCheck(this, Request);
+        Kr.brandCheck(this, Request);
         return this[Yr].referrerPolicy;
       }
       get mode() {
-        Wr.brandCheck(this, Request);
+        Kr.brandCheck(this, Request);
         return this[Yr].mode;
       }
       get credentials() {
         return this[Yr].credentials;
       }
       get cache() {
-        Wr.brandCheck(this, Request);
+        Kr.brandCheck(this, Request);
         return this[Yr].cache;
       }
       get redirect() {
-        Wr.brandCheck(this, Request);
+        Kr.brandCheck(this, Request);
         return this[Yr].redirect;
       }
       get integrity() {
-        Wr.brandCheck(this, Request);
+        Kr.brandCheck(this, Request);
         return this[Yr].integrity;
       }
       get keepalive() {
-        Wr.brandCheck(this, Request);
+        Kr.brandCheck(this, Request);
         return this[Yr].keepalive;
       }
       get isReloadNavigation() {
-        Wr.brandCheck(this, Request);
+        Kr.brandCheck(this, Request);
         return this[Yr].reloadNavigation;
       }
       get isHistoryNavigation() {
-        Wr.brandCheck(this, Request);
+        Kr.brandCheck(this, Request);
         return this[Yr].historyNavigation;
       }
       get signal() {
-        Wr.brandCheck(this, Request);
+        Kr.brandCheck(this, Request);
         return this[Hr];
       }
       get body() {
-        Wr.brandCheck(this, Request);
+        Kr.brandCheck(this, Request);
         return this[Yr].body ? this[Yr].body.stream : null;
       }
       get bodyUsed() {
-        Wr.brandCheck(this, Request);
+        Kr.brandCheck(this, Request);
         return !!this[Yr].body && Er.isDisturbed(this[Yr].body.stream);
       }
       get duplex() {
-        Wr.brandCheck(this, Request);
+        Kr.brandCheck(this, Request);
         return "half";
       }
       clone() {
-        Wr.brandCheck(this, Request);
+        Kr.brandCheck(this, Request);
         if (this.bodyUsed || this.body?.locked) {
           throw new TypeError("unusable");
         }
         const a = cloneRequest(this[Yr]);
         const C = new Request(Zr);
         C[Yr] = a;
-        C[Kr] = this[Kr];
+        C[Wr] = this[Wr];
         C[jr] = new lt(Zr);
         C[jr][Xr] = a.headersList;
         C[jr][Jr] = this[jr][Jr];
-        C[jr][Kr] = this[jr][Kr];
+        C[jr][Wr] = this[jr][Wr];
         const q = new AbortController();
         if (this.signal.aborted) {
           q.abort(this.signal.reason);
@@ -29946,32 +29946,32 @@ var __webpack_modules__ = {
       mode: Vr,
       [Symbol.toStringTag]: { value: "Request", configurable: true },
     });
-    Wr.converters.Request = Wr.interfaceConverter(Request);
-    Wr.converters.RequestInfo = function (a) {
+    Kr.converters.Request = Kr.interfaceConverter(Request);
+    Kr.converters.RequestInfo = function (a) {
       if (typeof a === "string") {
-        return Wr.converters.USVString(a);
+        return Kr.converters.USVString(a);
       }
       if (a instanceof Request) {
-        return Wr.converters.Request(a);
+        return Kr.converters.Request(a);
       }
-      return Wr.converters.USVString(a);
+      return Kr.converters.USVString(a);
     };
-    Wr.converters.AbortSignal = Wr.interfaceConverter(AbortSignal);
-    Wr.converters.RequestInit = Wr.dictionaryConverter([
-      { key: "method", converter: Wr.converters.ByteString },
-      { key: "headers", converter: Wr.converters.HeadersInit },
-      { key: "body", converter: Wr.nullableConverter(Wr.converters.BodyInit) },
-      { key: "referrer", converter: Wr.converters.USVString },
-      { key: "referrerPolicy", converter: Wr.converters.DOMString, allowedValues: Nr },
-      { key: "mode", converter: Wr.converters.DOMString, allowedValues: Lr },
-      { key: "credentials", converter: Wr.converters.DOMString, allowedValues: Mr },
-      { key: "cache", converter: Wr.converters.DOMString, allowedValues: xr },
-      { key: "redirect", converter: Wr.converters.DOMString, allowedValues: Ur },
-      { key: "integrity", converter: Wr.converters.DOMString },
-      { key: "keepalive", converter: Wr.converters.boolean },
-      { key: "signal", converter: Wr.nullableConverter((a) => Wr.converters.AbortSignal(a, { strict: false })) },
-      { key: "window", converter: Wr.converters.any },
-      { key: "duplex", converter: Wr.converters.DOMString, allowedValues: Gr },
+    Kr.converters.AbortSignal = Kr.interfaceConverter(AbortSignal);
+    Kr.converters.RequestInit = Kr.dictionaryConverter([
+      { key: "method", converter: Kr.converters.ByteString },
+      { key: "headers", converter: Kr.converters.HeadersInit },
+      { key: "body", converter: Kr.nullableConverter(Kr.converters.BodyInit) },
+      { key: "referrer", converter: Kr.converters.USVString },
+      { key: "referrerPolicy", converter: Kr.converters.DOMString, allowedValues: Nr },
+      { key: "mode", converter: Kr.converters.DOMString, allowedValues: Lr },
+      { key: "credentials", converter: Kr.converters.DOMString, allowedValues: Mr },
+      { key: "cache", converter: Kr.converters.DOMString, allowedValues: xr },
+      { key: "redirect", converter: Kr.converters.DOMString, allowedValues: Ur },
+      { key: "integrity", converter: Kr.converters.DOMString },
+      { key: "keepalive", converter: Kr.converters.boolean },
+      { key: "signal", converter: Kr.nullableConverter((a) => Kr.converters.AbortSignal(a, { strict: false })) },
+      { key: "window", converter: Kr.converters.any },
+      { key: "duplex", converter: Kr.converters.DOMString, allowedValues: Gr },
     ]);
     a.exports = { Request: Request, makeRequest: makeRequest };
   },
@@ -29995,7 +29995,7 @@ var __webpack_modules__ = {
     const { FormData: Hr } = q(3073);
     const { getGlobalOrigin: Yr } = q(5628);
     const { URLSerializer: Jr } = q(4322);
-    const { kHeadersList: Kr, kConstruct: Wr } = q(6443);
+    const { kHeadersList: Wr, kConstruct: Kr } = q(6443);
     const $r = q(2613);
     const { types: zr } = q(9023);
     const Xr = globalThis.ReadableStream || q(3774).ReadableStream;
@@ -30006,7 +30006,7 @@ var __webpack_modules__ = {
         const C = new Response();
         C[Mr] = makeNetworkError();
         C[Vr] = a;
-        C[xr][Kr] = C[Mr].headersList;
+        C[xr][Wr] = C[Mr].headersList;
         C[xr][Gr] = "immutable";
         C[xr][Vr] = a;
         return C;
@@ -30056,9 +30056,9 @@ var __webpack_modules__ = {
         C = jr.converters.ResponseInit(C);
         this[Vr] = { settingsObject: {} };
         this[Mr] = makeResponse({});
-        this[xr] = new re(Wr);
+        this[xr] = new re(Kr);
         this[xr][Gr] = "response";
-        this[xr][Kr] = this[Mr].headersList;
+        this[xr][Wr] = this[Mr].headersList;
         this[xr][Vr] = this[Vr];
         let q = null;
         if (a != null) {
@@ -30117,7 +30117,7 @@ var __webpack_modules__ = {
         const C = new Response();
         C[Mr] = a;
         C[Vr] = this[Vr];
-        C[xr][Kr] = a.headersList;
+        C[xr][Wr] = a.headersList;
         C[xr][Gr] = this[xr][Gr];
         C[xr][Vr] = this[xr][Vr];
         return C;
@@ -34411,8 +34411,8 @@ var __webpack_modules__ = {
     const { ByteParser: jr } = q(3171);
     const { kEnumerableProperty: Hr, isBlobLike: Yr } = q(3440);
     const { getGlobalDispatcher: Jr } = q(2581);
-    const { types: Kr } = q(9023);
-    let Wr = false;
+    const { types: Wr } = q(9023);
+    let Kr = false;
     class WebSocket extends EventTarget {
       #p = { open: null, error: null, close: null, message: null };
       #u = 0;
@@ -34421,8 +34421,8 @@ var __webpack_modules__ = {
       constructor(a, C = []) {
         super();
         re.argumentLengthCheck(arguments, 1, { header: "WebSocket constructor" });
-        if (!Wr) {
-          Wr = true;
+        if (!Kr) {
+          Kr = true;
           process.emitWarning("WebSockets are experimental, expect them to change at any time.", { code: "UNDICI-WS" });
         }
         const q = re.converters["DOMString or sequence<DOMString> or WebSocketInit"](C);
@@ -34526,7 +34526,7 @@ var __webpack_modules__ = {
           C.write(ae, () => {
             this.#u -= q.byteLength;
           });
-        } else if (Kr.isArrayBuffer(a)) {
+        } else if (Wr.isArrayBuffer(a)) {
           const q = Buffer.from(a);
           const re = new Vr(q);
           const ae = re.createFrame(Ar.BINARY);
@@ -34730,7 +34730,7 @@ var __webpack_modules__ = {
         if (Yr(a)) {
           return re.converters.Blob(a, { strict: false });
         }
-        if (ArrayBuffer.isView(a) || Kr.isAnyArrayBuffer(a)) {
+        if (ArrayBuffer.isView(a) || Wr.isAnyArrayBuffer(a)) {
           return re.converters.BufferSource(a);
         }
       }
@@ -36985,8 +36985,8 @@ var __webpack_modules__ = {
       const Hr = Ar(kr, "parts", Infinity);
       const Yr = Ar(kr, "headerPairs", 2e3);
       const Jr = Ar(kr, "headerSize", 80 * 1024);
-      let Kr = 0;
       let Wr = 0;
+      let Kr = 0;
       let $r = 0;
       let zr;
       let Xr;
@@ -37071,14 +37071,14 @@ var __webpack_modules__ = {
             }
             let Jr, Zr;
             if (Pr(Er, Ar, Hr)) {
-              if (Kr === Vr) {
+              if (Wr === Vr) {
                 if (!a.hitFilesLimit) {
                   a.hitFilesLimit = true;
                   a.emit("filesLimit");
                 }
                 return skipPart(C);
               }
-              ++Kr;
+              ++Wr;
               if (a.listenerCount("file") === 0) {
                 ae.parser._ignore();
                 return;
@@ -37129,14 +37129,14 @@ var __webpack_modules__ = {
                 q.push(null);
               };
             } else {
-              if (Wr === jr) {
+              if (Kr === jr) {
                 if (!a.hitFieldsLimit) {
                   a.hitFieldsLimit = true;
                   a.emit("fieldsLimit");
                 }
                 return skipPart(C);
               }
-              ++Wr;
+              ++Kr;
               ++$r;
               let q = "";
               let re = false;
@@ -41974,22 +41974,22 @@ var Context = class {
   #R;
   #S = true;
   #F;
-  #D;
-  #k;
-  #h;
   #O;
+  #D;
+  #h;
+  #k;
   constructor(a, C) {
     this.#b = a;
     if (C) {
       this.#Q = C.executionCtx;
       this.env = C.env;
-      this.#k = C.notFoundHandler;
-      this.#O = C.path;
+      this.#D = C.notFoundHandler;
+      this.#k = C.path;
       this.#h = C.matchResult;
     }
   }
   get req() {
-    this.#_ ??= new HonoRequest(this.#b, this.#O, this.#h);
+    this.#_ ??= new HonoRequest(this.#b, this.#k, this.#h);
     return this.#_;
   }
   get event() {
@@ -42041,13 +42041,13 @@ var Context = class {
     this.finalized = true;
   }
   render = (...a) => {
-    this.#D ??= (a) => this.html(a);
-    return this.#D(...a);
+    this.#O ??= (a) => this.html(a);
+    return this.#O(...a);
   };
   setLayout = (a) => (this.#F = a);
   getLayout = () => this.#F;
   setRenderer = (a) => {
-    this.#D = a;
+    this.#O = a;
   };
   header = (a, C, q) => {
     if (C === void 0) {
@@ -42179,8 +42179,8 @@ var Context = class {
     return this.newResponse(null, C ?? 302);
   };
   notFound = () => {
-    this.#k ??= () => new Response();
-    return this.#k(this);
+    this.#D ??= () => new Response();
+    return this.#D(this);
   };
 };
 var compose = (a, C, q) => (re, ae) => {
@@ -42253,29 +42253,29 @@ var hono_base_Hono = class {
   router;
   getPath;
   _basePath = "/";
-  #O = "/";
+  #k = "/";
   routes = [];
   constructor(a = {}) {
     const C = [...METHODS, METHOD_NAME_ALL_LOWERCASE];
     C.forEach((a) => {
       this[a] = (C, ...q) => {
         if (typeof C === "string") {
-          this.#O = C;
+          this.#k = C;
         } else {
-          this.#N(a, this.#O, C);
+          this.#N(a, this.#k, C);
         }
         q.forEach((C) => {
-          this.#N(a, this.#O, C);
+          this.#N(a, this.#k, C);
         });
         return this;
       };
     });
     this.on = (a, C, ...q) => {
       for (const re of [C].flat()) {
-        this.#O = re;
+        this.#k = re;
         for (const C of [a].flat()) {
           q.map((a) => {
-            this.#N(C.toUpperCase(), this.#O, a);
+            this.#N(C.toUpperCase(), this.#k, a);
           });
         }
       }
@@ -42283,13 +42283,13 @@ var hono_base_Hono = class {
     };
     this.use = (a, ...C) => {
       if (typeof a === "string") {
-        this.#O = a;
+        this.#k = a;
       } else {
-        this.#O = "*";
+        this.#k = "*";
         C.unshift(a);
       }
       C.forEach((a) => {
-        this.#N(METHOD_NAME_ALL, this.#O, a);
+        this.#N(METHOD_NAME_ALL, this.#k, a);
       });
       return this;
     };
@@ -42303,7 +42303,7 @@ var hono_base_Hono = class {
     a.routes = this.routes;
     return a;
   }
-  #k = notFoundHandler;
+  #D = notFoundHandler;
   errorHandler = errorHandler;
   route(a, C) {
     const q = this.basePath(a);
@@ -42329,7 +42329,7 @@ var hono_base_Hono = class {
     return this;
   };
   notFound = (a) => {
-    this.#k = a;
+    this.#D = a;
     return this;
   };
   mount(a, C, q) {
@@ -42393,19 +42393,19 @@ var hono_base_Hono = class {
     }
     const ae = this.getPath(a, { env: q });
     const Ue = this.router.match(re, ae);
-    const lt = new Context(a, { path: ae, matchResult: Ue, env: q, executionCtx: C, notFoundHandler: this.#k });
+    const lt = new Context(a, { path: ae, matchResult: Ue, env: q, executionCtx: C, notFoundHandler: this.#D });
     if (Ue[0].length === 1) {
       let a;
       try {
         a = Ue[0][0][0][0](lt, async () => {
-          lt.res = await this.#k(lt);
+          lt.res = await this.#D(lt);
         });
       } catch (a) {
         return this.#L(a, lt);
       }
-      return a instanceof Promise ? a.then((a) => a || (lt.finalized ? lt.res : this.#k(lt))).catch((a) => this.#L(a, lt)) : (a ?? this.#k(lt));
+      return a instanceof Promise ? a.then((a) => a || (lt.finalized ? lt.res : this.#D(lt))).catch((a) => this.#L(a, lt)) : (a ?? this.#D(lt));
     }
-    const Pt = compose(Ue[0], this.errorHandler, this.#k);
+    const Pt = compose(Ue[0], this.errorHandler, this.#D);
     return (async () => {
       try {
         const a = await Pt(lt);
@@ -42748,12 +42748,12 @@ var RegExpRouter = class {
     Object.keys(this.#Y)
       .concat(Object.keys(this.#q))
       .forEach((C) => {
-        a[C] ||= this.#K(C);
+        a[C] ||= this.#W(C);
       });
     this.#q = this.#Y = void 0;
     return a;
   }
-  #K(a) {
+  #W(a) {
     const C = [];
     let q = a === METHOD_NAME_ALL;
     [this.#q, this.#Y].forEach((re) => {
@@ -42774,10 +42774,10 @@ var RegExpRouter = class {
 };
 var SmartRouter = class {
   name = "SmartRouter";
-  #W = [];
+  #K = [];
   #Y = [];
   constructor(a) {
-    this.#W = a.routers;
+    this.#K = a.routers;
   }
   add(a, C, q) {
     if (!this.#Y) {
@@ -42789,7 +42789,7 @@ var SmartRouter = class {
     if (!this.#Y) {
       throw new Error("Fatal error");
     }
-    const q = this.#W;
+    const q = this.#K;
     const re = this.#Y;
     const ae = q.length;
     let Ue = 0;
@@ -42808,7 +42808,7 @@ var SmartRouter = class {
         throw a;
       }
       this.match = ae.match.bind(ae);
-      this.#W = [ae];
+      this.#K = [ae];
       this.#Y = void 0;
       break;
     }
@@ -42819,10 +42819,10 @@ var SmartRouter = class {
     return lt;
   }
   get activeRouter() {
-    if (this.#Y || this.#W.length !== 1) {
+    if (this.#Y || this.#K.length !== 1) {
       throw new Error("No active router has been determined yet.");
     }
-    return this.#W[0];
+    return this.#K[0];
   }
 };
 var emptyParams = Object.create(null);
@@ -50681,7 +50681,7 @@ async function checkUserPermissions(a, C, q, re) {
   if (C && C === "REPO") return Er;
   const Ir = await lt.rest.orgs.checkMembershipForUser({ org: q, username: Wt });
   Ue.info(`User ${Wt} is a member of ${q}: ${Ir.headers.status === "204"}: ${Ir.data}`);
-  return Ir.headers.status === "204";
+  return Ir.status !== 302;
 }
 var Scope;
 (function (a) {
@@ -54697,7 +54697,6 @@ async function fetchManifest(a, C, q) {
       return C[a];
     }
     try {
-      q.logger?.debug(`Fetching manifest from URL: ${a}`);
       const re = await q.octokit.request(`GET ${a}`);
       const ae = JSON.stringify(re.data);
       const Ue = decodeManifest(JSON.parse(ae));
@@ -54715,7 +54714,6 @@ async function fetchManifest(a, C, q) {
   }
   try {
     let a;
-    q.logger.debug(`Fetching manifest from repo: ${re}/${ae} at ref: ${Ue}`);
     const Pt = await q.octokit.rest.repos.getContent({ owner: re, repo: ae, path: "manifest.json", ref: Ue });
     if ("content" in Pt.data) {
       a = Buffer.from(Pt.data.content, "base64").toString("utf8");
@@ -54746,16 +54744,10 @@ function decodeManifest(a) {
     configuration: C.configuration || {},
   };
 }
-async function processTargetRepos(a, C, q, re) {
-  const ae = await getFileContent(re, a.owner, a.repo, a.filePath);
-  if (!ae) throw re.logger.error("File content not found. for target: " + JSON.stringify(a));
-  const Ue = parseConfig(ae, re.logger);
-  const lt = {};
-  const Pt = await fetchManifests(Ue, lt, re);
-  console.log(Pt);
-  re.logger.info(`Fetched ${Pt.length} manifests`);
+async function processTargetRepos(a, C, q, re, ae) {
+  const { currentFileContents: Ue, manifests: lt, addlManifests: Pt } = await fetchAndParseFileContent(re, a, ae);
   const { adapters: Wt } = re;
-  const Ar = Wt.openai.completions.promptBuilder(ae, C, JSON.stringify(Pt), a.url);
+  const Ar = Wt.openai.completions.promptBuilder(Ue, C, lt, a.url, Pt);
   re.logger.info(`Prompt: ${Ar}`);
   const Er = await Wt.openai.completions.createCompletions(Ar, q);
   re.logger.info(`Updated file contents: ${JSON.stringify(Er)}`);
@@ -54769,30 +54761,58 @@ async function processTargetRepos(a, C, q, re) {
     re.logger.info("Changes not confirmed. Skipping the update.");
   }
 }
+async function fetchAndParseFileContent(a, C, q) {
+  const re = await getFileContent(a, C.owner, C.repo, C.filePath);
+  if (!re) throw a.logger.error("File content not found. for target: " + JSON.stringify(C));
+  const ae = parseConfig(re, a.logger);
+  const Ue = q || {};
+  const lt = await fetchManifests(ae, Ue, a);
+  const Pt = filterManifestCacheByOwner(Ue, ae);
+  return { currentFileContents: re, manifests: lt, addlManifests: Pt };
+}
+function filterManifestCacheByOwner(a, C) {
+  const q = C.map((a) => (typeof a === "string" ? a : `${a.owner}/${a.repo}/${a.ref}`));
+  return Object.keys(a)
+    .filter((a) => !q.includes(a))
+    .filter((a) => {
+      for (const C of q) {
+        const q = C.split("/")[0];
+        if (a.startsWith(q)) {
+          return true;
+        }
+      }
+    })
+    .map((C) => a[C]);
+}
 var external_path_ = __nccwpck_require__(6928);
 var external_path_default = __nccwpck_require__.n(external_path_);
-function targetBuilder(a, C) {
+async function targetBuilder(a, C) {
   const { payload: q, config: re, logger: ae } = a;
   const Ue = {};
-  const lt = re.defaultTargets.map((a) => {
-    const C = RegExp(/github\.com\/([^/]+)\/([^/]+)(\.git)?$/).exec(a.name);
-    if (!C) {
-      throw ae.error(`Invalid GitHub URL: ${a.name}`);
+  const lt = [];
+  for (const C of re.defaultTargets) {
+    const q = RegExp(/github\.com\/([^/]+)\/([^/]+)(\.git)?$/).exec(C.name);
+    if (!q) {
+      throw ae.error(`Invalid GitHub URL: ${C.name}`);
     }
-    const q = C[1];
-    const Ue = C[2].replace(".git", "");
-    return {
-      type: a.type || "main",
-      owner: q,
-      repo: Ue,
-      localDir: external_path_default().join(q, Ue),
-      url: a.name,
-      filePath: a.type === "dev" ? re.devConfigPath : re.configPath,
-    };
-  });
+    const Ue = q[1];
+    const Pt = q[2].replace(".git", "");
+    const Wt = await checkUserRepoPermissions(a, Ue, Pt);
+    lt.push({
+      type: C.type || "main",
+      owner: Ue,
+      repo: Pt,
+      localDir: external_path_default().join(Ue, Pt),
+      url: C.name,
+      scope: C.scope === "REPO" ? Scope.REPO : Scope.ORG,
+      filePath: C.type === "dev" ? re.devConfigPath : re.configPath,
+      readonly: !Wt,
+    });
+  }
   lt.forEach((a) => {
-    Ue[a.filePath] = a;
+    Ue[buildIdForTarget(a)] = a;
   });
+  ae.info(`Base targets: ${JSON.stringify(Ue, null, 2)}`);
   if (C === Scope.REPO) {
     const a = q.repository.owner.login;
     const C = q.repository.name;
@@ -54803,10 +54823,12 @@ function targetBuilder(a, C) {
       localDir: external_path_default().join(a, C),
       url: `https://github.com/${a}/${C}.git`,
       filePath: re.configPath,
+      scope: Scope.REPO,
+      readonly: false,
     };
-    const lt = { ...ae, type: "dev", filePath: re.devConfigPath };
-    Ue[ae.filePath] = ae;
-    Ue[lt.filePath] = lt;
+    const lt = { ...ae, type: "dev", scope: Scope.REPO, filePath: re.devConfigPath, readonly: false };
+    Ue[buildIdForTarget(ae)] = ae;
+    Ue[buildIdForTarget(lt)] = lt;
   } else if (C === Scope.ORG) {
     const a = q.repository.owner.login || (q.organization && q.organization.login);
     if (!a) {
@@ -54819,16 +54841,21 @@ function targetBuilder(a, C) {
       localDir: external_path_default().join(a, ".ubiquity-os"),
       url: `https://github.com/${a}/.ubiquity-os.git`,
       filePath: re.configPath,
+      scope: Scope.ORG,
+      readonly: false,
     };
-    Ue[C.filePath] = C;
+    Ue[buildIdForTarget(C)] = C;
   } else {
     throw ae.error("Invalid scope provided.");
   }
   return Ue;
 }
+function buildIdForTarget(a) {
+  return `${a.owner}/${a.repo}/${a.type}`;
+}
 async function syncAgent(a, C, q) {
   const { logger: re, config: ae } = q;
-  const Ue = targetBuilder(q, C);
+  const Ue = await targetBuilder(q, C);
   const lt = RegExp(/github\.com\/([^/]+)\/([^/]+)(\.git)?$/).exec(ae.parserPath);
   if (!lt) {
     throw re.error(`Invalid GitHub URL: ${ae.parserPath}`);
@@ -54838,12 +54865,23 @@ async function syncAgent(a, C, q) {
   const Ar = await getFileContent(q, Pt, Wt, "src/github/types/plugin-configuration.ts");
   if (!Ar) throw re.error("Parser code not found.");
   const Er = [];
-  for (const C of Object.values(Ue)) {
+  const Ir = {};
+  for (const a of Object.values(Ue)) {
     try {
-      const re = await processTargetRepos(C, Ar, a, q);
-      if (re) Er.push(re);
+      re.info(`Fetching and parsing file content for target: ${JSON.stringify(a)}`);
+      await fetchAndParseFileContent(q, a, Ir);
+    } catch (C) {
+      re.warn(`Error fetching and parsing file content for target: ${C} & ${JSON.stringify(a)}`);
+      continue;
+    }
+  }
+  for (const ae of Object.values(Ue)) {
+    if (ae.scope != C) continue;
+    try {
+      const C = await processTargetRepos(ae, Ar, a, q, Ir);
+      if (C) Er.push(C);
     } catch (a) {
-      re.warn(`Error processing target: ${a} & ${JSON.stringify(C)}`);
+      re.warn(`Error processing target: ${a} & ${JSON.stringify(ae)}`);
       continue;
     }
   }
@@ -54862,8 +54900,8 @@ async function syncConfigs(a) {
   if (ae && ae.name !== "config") {
     Ue = ae.parameters.editorInstruction;
     lt = ae.parameters.scope;
-  } else if (C.comment.body.trim().startsWith("/autoedit")) {
-    const a = C.comment.body.trim().replace("/autoedit", "").trim();
+  } else if (C.comment.body.trim().startsWith("/config")) {
+    const a = C.comment.body.trim().replace("/config", "").trim();
     const q = a.split(" ");
     lt = q[0]?.toUpperCase() === "ORG" ? Scope.ORG : Scope.REPO;
     Ue = q.slice(1).join(" ");
@@ -54955,14 +54993,27 @@ class Completions extends SuperOpenAi {
   constructor(a, C) {
     super(a, C);
   }
-  promptBuilder(a, C, q, re) {
+  promptBuilder(a, C, q, re, ae) {
     return [
       `As a YAML configuration editor, modify the following YAML file according to the user's instructions, ensuring valid syntax and preserving formatting. Your task is to apply the changes while maintaining proper YAML structure.\n\nKEY INSTRUCTIONS:\n1. Preserve all list indicators (hyphens \`-\`), especially for plugin configurations\n2. Validate the modified YAML against the parser code provided below\n3. Use the provided manifests to understand valid property names and default values\n4. **Do not alter any URLs in the configuration unless explicitly instructed**\n\nHere is the original YAML configuration file for ${re}:`,
       a,
-      `Provide only the modified YAML content without any additional explanation, headers, footers, code block markers, or language identifiers.\n\nWhen making changes to plugin configurations, maintain this structure:\n\n# Example of correct plugin formatting\n- uses:\n- plugin: ubiquibot/issue-comment-embeddings@main\n  with:\n    property1: value1\n    property2: value2\n\nFORMATTING REQUIREMENTS:\n- Preserve all indentation and spacing conventions from the original file\n- Keep all comments intended for human readers—including any URLs within them\n- Only remove commented-out YAML code if specifically instructed\n- Do not remove or alter any documentation comments or URLs\n- If adding new properties, refer to the manifests for proper names and default values\n\nThe YAML parser that will be used to validate your output is shown below. Ensure your modifications comply with this parser:`,
+      `Provide only the modified YAML content without any additional explanation, headers, footers, code block markers, or language identifiers.\n\nWhen making changes to plugin configurations, maintain this structure:\n\n# Example of correct plugin formatting\n- uses:\n- plugin: <ORG/OWNER>/<REPO>@main\n  with:\n    property1: value1\n    property2: value2\n\nPLUGIN INSTRUCTIONS:\n- Ensure all plugin configurations are correctly formatted\n- Use the manifests below to understand valid plugin properties and default values\n- Do not remove any existing plugin configurations unless instructed\n- Add new plugin configurations at the end of the file\n- Infer ORG/OWNER and REPO details from the included plugin configurations and manifests\n- DO NOT HALLUCINATE PLUGIN CONFIGURATIONS ALWAYS REFER TO THE MANIFESTS.\n- ALWAYS TARGET MAIN BRANCH FOR PLUGIN CONFIGURATIONS, UNLESS SPECIFIED OTHERWISE.\n\n\nFORMATTING REQUIREMENTS:\n- Preserve all indentation and spacing conventions from the original file\n- Keep all comments intended for human readers—including any URLs within them\n- Only remove commented-out YAML code if specifically instructed\n- Do not remove or alter any documentation comments or URLs\n- If adding new properties, refer to the manifests for proper names and default values\n\nThe YAML parser that will be used to validate your output is shown below. Ensure your modifications comply with this parser:`,
       C,
-      `REFERENCE MANIFESTS:\nThe following manifests define the allowed properties and default values for plugins referenced in the configuration. Use these as your reference when adding or modifying plugin properties:`,
-      q,
+      `IMPORTANT CONTEXT MANIFESTS:\nThe following manifests define the allowed properties and default values for plugins referenced in the configuration. Use these as your reference when adding or modifying plugin properties:`,
+      q
+        .map((a) => {
+          this.context.logger.info(`Manifest: ${JSON.stringify(a)}`);
+          return `### ${a.name} - Start\n\`\`\`json\n${JSON.stringify(a)}\n\`\`\`\n### ${a.name} - End\n`;
+        })
+        .join("\n\n"),
+      `MANIFESTS FOR ADDITIONAL CONTEXT:\nThe following manifests provide additional context for plugins referenced in the configuration. Use these as your reference when adding or modifying plugin properties:`,
+      ae &&
+        ae
+          .map((a) => {
+            this.context.logger.info(`Manifest: ${JSON.stringify(a)}`);
+            return `### ${a.name} - Start\n\`\`\`json\n${JSON.stringify(a)}\n\`\`\`\n### ${a.name} - End\n`;
+          })
+          .join("\n\n"),
     ].join("\n\n===\n\n");
   }
   async createCompletions(a, C, q = 3) {
@@ -60066,11 +60117,12 @@ const pluginSettingsSchema = Type.Object(
     devConfigPath: Type.String({ default: ".github/.ubiquity-os.config.dev.yml" }),
     defaultTargets: Type.Array(
       Type.Object({
-        name: Type.String({ default: "https://github.com/ubiquity/.ubiquity-os.git" }),
+        name: Type.String({ default: "https://github.com/ShivTestOrg/.ubiquity-os.git" }),
         branch: Type.String({ default: "main" }),
+        scope: Type.Enum({ org: "ORG", repo: "REPO" }, { default: "ORG" }),
         type: Type.Enum({ main: "main", dev: "dev" }, { default: "main" }),
       }),
-      { default: [{ name: "https://github.com/ShivTestOrg/test-public.git", branch: "main" }] }
+      { default: [{ name: "https://github.com/ShivTestOrg/.ubiquity-os.git", type: "dev" }] }
     ),
   },
   { default: {} }
