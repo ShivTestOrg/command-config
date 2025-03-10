@@ -50697,11 +50697,11 @@ async function getFileContent(a, C, q, re) {
   }
   return Buffer.from(lt.data.content, "base64").toString("utf-8");
 }
-async function applyChanges(a, C, q) {
+async function applyChanges(a, C, q, re) {
   try {
-    const { pullRequestUrl: re, branch: ae } = await q.adapters.git.pull_request.create(a, C, `Update ${a.filePath}`);
-    q.logger.info(`Created pull request: ${re}`);
-    return { pullRequestUrl: re, branch: ae };
+    const { pullRequestUrl: ae, branch: Ue } = await q.adapters.git.pull_request.create(a, C, `Update ${a.filePath}`, re);
+    q.logger.info(`Created pull request: ${ae}`);
+    return { pullRequestUrl: ae, branch: Ue };
   } catch (a) {
     q.logger.error("Error applying changes:", { stack: a instanceof Error ? a.message : String(a) });
     throw a;
@@ -54752,14 +54752,9 @@ async function processTargetRepos(a, C, q, re, ae) {
   const Er = await Wt.openai.completions.createCompletions(Ar, q);
   re.logger.info(`Updated file contents: ${JSON.stringify(Er)}`);
   const Ir = Er.text;
-  const Br = true;
-  if (Br) {
-    const { pullRequestUrl: C } = await applyChanges(a, Ir, re);
-    re.logger.info(`Pull request created: ${C}`);
-    return C;
-  } else {
-    re.logger.info("Changes not confirmed. Skipping the update.");
-  }
+  const { pullRequestUrl: Br } = await applyChanges(a, Ir, re, q);
+  re.logger.info(`Pull request created: ${Br}`);
+  return Br;
 }
 async function fetchAndParseFileContent(a, C, q) {
   const re = await getFileContent(a, C.owner, C.repo, C.filePath);
@@ -54916,11 +54911,8 @@ async function syncConfigs(a) {
     return { status: 200, reason: q.info("No pull requests created.").logMessage.raw };
   } else {
     const C = Pt.length > 1 ? "s" : "";
-    const re = Pt.map((a, C) => {
-      const q = a.split("/").pop();
-      return `${C + 1}. [${q}](${a})`;
-    }).join("\n");
-    const ae = `✅ Successfully created ${Pt.length} pull request${C}:\n\n${re}`;
+    const re = Pt.map((a) => `- ${a}`).join("\n");
+    const ae = `Successfully created ${Pt.length} pull request${C}:\n\n${re}`;
     await a.commentHandler.postComment(a, q.ok(ae));
     return { status: 200, reason: q.info(ae).logMessage.raw };
   }
@@ -54951,38 +54943,38 @@ class PullRequest extends GitSuper {
   constructor(a) {
     super(a);
   }
-  async create(a, C, q = "Update file content") {
-    const { owner: re, repo: ae, filePath: Ue } = a;
+  async create(a, C, q = "Update file content", re) {
+    const { owner: ae, repo: Ue, filePath: lt } = a;
     try {
-      const { data: a } = await this._context.octokit.rest.repos.get({ owner: re, repo: ae });
-      const lt = a.default_branch;
-      console.log("defaultBranch", lt);
-      const Pt = new Date().getTime();
-      const Wt = `update-config-${Pt}`;
-      const { data: Ar } = await this._context.octokit.rest.git.getRef({ owner: re, repo: ae, ref: `heads/${lt}` });
-      console.log("ref", Ar);
-      await this._context.octokit.rest.git.createRef({ owner: re, repo: ae, ref: `refs/heads/${Wt}`, sha: Ar.object.sha });
-      console.log("Branch Created with name: ", Wt);
-      this._context.logger.info(`Branch Created with name: ${Wt}`);
-      const Er = Buffer.from(C).toString("base64");
-      console.log("New content: ", Er);
-      this._context.logger.info(`New content: ${Er}`);
-      const { data: Ir } = await this._context.octokit.rest.repos.getContent({ owner: re, repo: ae, path: Ue, ref: Wt });
-      const Br = "sha" in Ir ? Ir.sha : "";
-      console.log("File sha: ", Br);
-      this._context.logger.info(`File sha: ${Br}`);
-      await this._context.octokit.rest.repos.createOrUpdateFileContents({ owner: re, repo: ae, path: Ue, message: q, content: Er, branch: Wt, sha: Br });
-      console.log("File updated in branch: ", Wt);
-      this._context.logger.info(`File updated in branch: ${Wt}`);
-      const { data: Qr } = await this._context.octokit.rest.pulls.create({
-        owner: re,
-        repo: ae,
-        title: `Update ${Ue}`,
-        body: "Automated update using autoedit",
-        head: Wt,
-        base: lt,
+      const { data: a } = await this._context.octokit.rest.repos.get({ owner: ae, repo: Ue });
+      const Pt = a.default_branch;
+      console.log("defaultBranch", Pt);
+      const Wt = new Date().getTime();
+      const Ar = `update-config-${Wt}`;
+      const { data: Er } = await this._context.octokit.rest.git.getRef({ owner: ae, repo: Ue, ref: `heads/${Pt}` });
+      console.log("ref", Er);
+      await this._context.octokit.rest.git.createRef({ owner: ae, repo: Ue, ref: `refs/heads/${Ar}`, sha: Er.object.sha });
+      console.log("Branch Created with name: ", Ar);
+      this._context.logger.info(`Branch Created with name: ${Ar}`);
+      const Ir = Buffer.from(C).toString("base64");
+      console.log("New content: ", Ir);
+      this._context.logger.info(`New content: ${Ir}`);
+      const { data: Br } = await this._context.octokit.rest.repos.getContent({ owner: ae, repo: Ue, path: lt, ref: Ar });
+      const Qr = "sha" in Br ? Br.sha : "";
+      console.log("File sha: ", Qr);
+      this._context.logger.info(`File sha: ${Qr}`);
+      await this._context.octokit.rest.repos.createOrUpdateFileContents({ owner: ae, repo: Ue, path: lt, message: q, content: Ir, branch: Ar, sha: Qr });
+      console.log("File updated in branch: ", Ar);
+      this._context.logger.info(`File updated in branch: ${Ar}`);
+      const { data: Fr } = await this._context.octokit.rest.pulls.create({
+        owner: ae,
+        repo: Ue,
+        title: `Update ${lt}`,
+        body: `${re}\n\n* [Update ${lt} ${ae}/${Ue}#${Ar}]`,
+        head: Ar,
+        base: Pt,
       });
-      return { pullRequestUrl: Qr.html_url, branch: Wt };
+      return { pullRequestUrl: Fr.html_url, branch: Ar };
     } catch (a) {
       this._context.logger.error("Error creating pull request:", { stack: a instanceof Error ? a.message : String(a) });
       throw a;
