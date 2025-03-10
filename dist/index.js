@@ -54931,7 +54931,6 @@ function extractEditorInstructionAndScope(a) {
   } else {
     return null;
   }
-  console.log("Scope: ", Ue);
   if (!ae || ae.trim() === "") {
     throw re.error("Editor instruction cannot be empty. Please provide editing instructions.");
   }
@@ -54968,29 +54967,23 @@ class PullRequest extends GitSuper {
     try {
       const { data: a } = await this._context.octokit.rest.repos.get({ owner: ae, repo: Ue });
       const Pt = a.default_branch;
-      console.log("defaultBranch", Pt);
       const Wt = new Date().getTime();
       const Ar = `update-config-${Wt}`;
       const { data: Er } = await this._context.octokit.rest.git.getRef({ owner: ae, repo: Ue, ref: `heads/${Pt}` });
-      console.log("ref", Er);
       await this._context.octokit.rest.git.createRef({ owner: ae, repo: Ue, ref: `refs/heads/${Ar}`, sha: Er.object.sha });
-      console.log("Branch Created with name: ", Ar);
       this._context.logger.info(`Branch Created with name: ${Ar}`);
       const Ir = Buffer.from(C).toString("base64");
-      console.log("New content: ", Ir);
       this._context.logger.info(`New content: ${Ir}`);
       const { data: Br } = await this._context.octokit.rest.repos.getContent({ owner: ae, repo: Ue, path: lt, ref: Ar });
       const Qr = "sha" in Br ? Br.sha : "";
-      console.log("File sha: ", Qr);
       this._context.logger.info(`File sha: ${Qr}`);
       await this._context.octokit.rest.repos.createOrUpdateFileContents({ owner: ae, repo: Ue, path: lt, message: q, content: Ir, branch: Ar, sha: Qr });
-      console.log("File updated in branch: ", Ar);
       this._context.logger.info(`File updated in branch: ${Ar}`);
       const { data: Fr } = await this._context.octokit.rest.pulls.create({
         owner: ae,
         repo: Ue,
         title: `Update ${lt}`,
-        body: `${re}\n\n* [Update ${lt} ${ae}/${Ue}#${Ar}]`,
+        body: `Made changes according to:\n\n${re}`,
         head: Ar,
         base: Pt,
       });
