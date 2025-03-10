@@ -145,9 +145,6 @@ export const handlers = [
         path: { equals: params.path as string },
       },
     });
-
-    console.log("File", file);
-
     if (!file) {
       return new HttpResponse(null, { status: 404 });
     }
@@ -175,10 +172,8 @@ export const handlers = [
   }),
   // Create pull request
   http.post("https://api.github.com/repos/:owner/:repo/pulls", async ({ params, request }) => {
-    console.log("Request Body", request.body);
     await getValue(request.body);
 
-    console.log("Creating PR");
     const prNumber = db.pulls.count() + 1;
     const newPull = db.pulls.create({
       id: Date.now(),
@@ -187,8 +182,6 @@ export const handlers = [
       number: prNumber,
       html_url: `https://github.com/${params.owner}/${params.repo}/pull/${prNumber}`,
     });
-    console.log("PR With Details", newPull);
-
     return HttpResponse.json(newPull);
   }),
 ];

@@ -74,9 +74,6 @@ function extractEditorInstructionAndScope(context: Context): { editorInstruction
   } else {
     return null;
   }
-
-  console.log("Scope: ", scope);
-
   if (!editorInstruction || editorInstruction.trim() === "") {
     throw logger.error("Editor instruction cannot be empty. Please provide editing instructions.");
   }

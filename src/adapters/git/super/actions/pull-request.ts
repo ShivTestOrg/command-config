@@ -18,8 +18,6 @@ export class PullRequest extends GitSuper {
       });
       const defaultBranch = repository.default_branch;
 
-      console.log("defaultBranch", defaultBranch);
-
       // Create a new branch
       const timestamp = new Date().getTime();
       const branchName = `update-config-${timestamp}`;
@@ -31,8 +29,6 @@ export class PullRequest extends GitSuper {
         ref: `heads/${defaultBranch}`,
       });
 
-      console.log("ref", ref);
-
       // Create new branch
       await this._context.octokit.rest.git.createRef({
         owner,
@@ -40,13 +36,10 @@ export class PullRequest extends GitSuper {
         ref: `refs/heads/${branchName}`,
         sha: ref.object.sha,
       });
-
-      console.log("Branch Created with name: ", branchName);
       this._context.logger.info(`Branch Created with name: ${branchName}`);
 
       // Update file in new branch
       const content = Buffer.from(fileContent).toString("base64");
-      console.log("New content: ", content);
       this._context.logger.info(`New content: ${content}`);
 
       // Get the file sha
@@ -58,7 +51,6 @@ export class PullRequest extends GitSuper {
       });
 
       const fileSha = "sha" in fileData ? fileData.sha : "";
-      console.log("File sha: ", fileSha);
       this._context.logger.info(`File sha: ${fileSha}`);
 
       // Update the file in the new branch (with the new content and sha from the previous step)
@@ -71,7 +63,6 @@ export class PullRequest extends GitSuper {
         branch: branchName,
         sha: fileSha,
       });
-      console.log("File updated in branch: ", branchName);
       this._context.logger.info(`File updated in branch: ${branchName}`);
 
       // Create pull request with initial body
@@ -79,7 +70,7 @@ export class PullRequest extends GitSuper {
         owner,
         repo,
         title: `Update ${filePath}`,
-        body: `${editorInstruction}\n\n* [Update ${filePath} ${owner}/${repo}#${branchName}]`,
+        body: `Made changes according to:\n\n${editorInstruction}`,
         head: branchName,
         base: defaultBranch,
       });
