@@ -54982,8 +54982,8 @@ class PullRequest extends GitSuper {
       const { data: Fr } = await this._context.octokit.rest.pulls.create({
         owner: ae,
         repo: Ue,
-        title: `Update ${lt}`,
-        body: `Made changes according to:\n\n${re}`,
+        title: `chore: update \`${lt}\``,
+        body: `Update to \`${lt}\` following this instruction:\n\n\n        \n> ${re}`,
         head: Ar,
         base: Pt,
       });
