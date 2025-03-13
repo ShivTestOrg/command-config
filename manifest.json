@@ -23,7 +23,7 @@
         "type": "string"
       },
       "parserPath": {
-        "default": "https://github.com/ShivTestOrg/ubiquity-os-kernel.git",
+        "default": "https://github.com/ubiquity-os/ubiquity-os-kernel.git",
         "type": "string"
       },
       "configPath": {
@@ -37,7 +37,7 @@
       "defaultTargets": {
         "default": [
           {
-            "name": "https://github.com/ShivTestOrg/.ubiquity-os.git",
+            "name": "https://github.com/ubiquity-os/.ubiquity-os.git",
             "type": "dev"
           }
         ],
@@ -46,7 +46,7 @@
           "type": "object",
           "properties": {
             "name": {
-              "default": "https://github.com/ShivTestOrg/.ubiquity-os.git",
+              "default": "https://github.com/ubiquity-os/.ubiquity-os.git",
               "type": "string"
             },
             "branch": {
