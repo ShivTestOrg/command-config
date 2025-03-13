@@ -54998,7 +54998,7 @@ class PullRequest extends GitSuper {
         owner: ae,
         repo: Ue,
         title: `chore: update \`${lt}\``,
-        body: `Ran by: @${this._context.payload.comment.user?.login || this._context.payload.sender.login}\n        \n> ${re}`,
+        body: `Ran by: @${this._context.payload.comment.user?.login || this._context.payload.sender.login}\n\nOriginally posted in: ${this._context.payload.comment ? `[comment](${this._context.payload.comment.html_url})` : "issue"}\n        \n> ${re}`,
         head: Ar,
         base: Pt,
       });
