@@ -133,11 +133,15 @@ async function processOrgConfig(context: Context, targetMap: Record<string, Targ
 
 export async function targetBuilder(context: Context): Promise<Record<string, Target>> {
   try {
-    const targetMap = await processBaseTargets(context);
+    const targetMap: Record<string, Target> = {};
     const { repoConfig, repoDevConfig } = await processRepoConfigs(context, targetMap);
 
     if (!(repoConfig || repoDevConfig)) {
       await processOrgConfig(context, targetMap);
+    }
+
+    if (Object.keys(targetMap).length === 0) {
+      return await processBaseTargets(context);
     }
 
     return targetMap;
