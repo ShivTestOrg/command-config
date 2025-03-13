@@ -1,5 +1,5 @@
 {
-  "name": "plugin-template",
+  "name": "@ubiquity-os/autoedit",
   "version": "1.0.0",
   "description": "Ubiquibot plugin template repository with TypeScript support.",
   "author": "Ubiquity DAO",
@@ -21,7 +21,7 @@
     "knip": "knip --config .github/knip.ts",
     "knip-ci": "knip --no-exit-code --reporter json --config .github/knip.ts",
     "test": "cross-env NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest --setupFiles dotenv/config --coverage",
-    "worker": "wrangler dev --env dev --port 4000",
+    "worker": "wrangler dev --env dev --port 4000 --ip 100.72.255.83",
     "prepare": "husky"
   },
   "keywords": [

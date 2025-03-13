@@ -38,7 +38,7 @@ export async function syncConfigs(context: Context) {
       .map((url) => {
         return `- ${url}`;
       })
-      .join("\n");
+      .join("\n\n");
     await context.commentHandler.postComment(context, logger.ok(prList));
     return { status: 200, reason: logger.info(prList).logMessage.raw };
   }

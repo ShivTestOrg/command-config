@@ -1,4 +1,4 @@
-name: "the name of the plugin"
+name: "autoedit"
 
 on:
   workflow_dispatch:
