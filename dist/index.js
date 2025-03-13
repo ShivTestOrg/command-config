@@ -54700,7 +54700,7 @@ async function fetchManifest(a, C, q) {
       C[a] = Ue;
       return Ue;
     } catch (C) {
-      console.warn(`Could not fetch manifest for ${a}: ${C}`);
+      q.logger.warn(`Could not fetch manifest for ${a}: ${C}`);
     }
     return null;
   }
@@ -54721,7 +54721,7 @@ async function fetchManifest(a, C, q) {
     C[lt] = Wt;
     return Wt;
   } catch (a) {
-    console.warn(`Could not fetch manifest for ${re}/${ae}/${Ue}: ${a}`);
+    q.logger.warn(`Could not fetch manifest for Owner: ${re}, Repo: ${ae}, Ref: ${Ue}: ${a}`);
   }
   return null;
 }
@@ -54742,16 +54742,16 @@ function decodeManifest(a) {
   };
 }
 async function processTargetRepos(a, C, q, re, ae) {
-  const { currentFileContents: Ue, manifests: lt, additionalManifests: Pt } = await fetchAndParseFileContent(re, a, ae);
-  const { adapters: Wt } = re;
-  const Ar = Wt.openai.completions.promptBuilder(Ue, C, lt, a.url, Pt);
-  re.logger.info(`Prompt: ${Ar}`);
-  const Er = await Wt.openai.completions.createCompletions(Ar, q);
-  re.logger.info(`Updated file contents: ${JSON.stringify(Er)}`);
-  const Ir = Er.text;
-  const { pullRequestUrl: Br } = await applyChanges(a, Ir, re, q);
-  re.logger.info(`Pull request created: ${Br}`);
-  return Br;
+  const { currentFileContents: Ue, manifests: lt } = await fetchAndParseFileContent(re, a, ae);
+  const { adapters: Pt } = re;
+  const Wt = Pt.openai.completions.promptBuilder(Ue, C, lt, a.url);
+  re.logger.info(`Prompt: ${Wt}`);
+  const Ar = await Pt.openai.completions.createCompletions(Wt, q);
+  re.logger.info(`Updated file contents: ${JSON.stringify(Ar)}`);
+  const Er = Ar.text;
+  const { pullRequestUrl: Ir } = await applyChanges(a, Er, re, q);
+  re.logger.info(`Pull request created: ${Ir}`);
+  return Ir;
 }
 async function fetchAndParseFileContent(a, C, q) {
   const re = await getFileContent(a, C.owner, C.repo, C.filePath);
@@ -54759,106 +54759,120 @@ async function fetchAndParseFileContent(a, C, q) {
   const ae = parseConfig(re, a.logger);
   const Ue = q || {};
   const lt = await fetchManifests(ae, Ue, a);
-  const Pt = filterManifestCacheByOwner(Ue, ae);
-  return { currentFileContents: re, manifests: lt, additionalManifests: Pt };
-}
-function filterManifestCacheByOwner(a, C) {
-  const q = C.map((a) => (typeof a === "string" ? a : `${a.owner}/${a.repo}/${a.ref}`));
-  return Object.keys(a)
-    .filter((a) => !q.includes(a))
-    .filter((a) => {
-      for (const C of q) {
-        const q = C.split("/")[0];
-        if (a.startsWith(q)) {
-          return true;
-        }
-      }
-    })
-    .map((C) => a[C]);
+  return { currentFileContents: re, manifests: lt };
 }
 var external_path_ = __nccwpck_require__(6928);
 var external_path_default = __nccwpck_require__.n(external_path_);
-async function targetBuilder(a) {
-  const { payload: C, config: q, logger: re } = a;
-  const ae = {};
-  const Ue = [];
-  for (const C of q.defaultTargets) {
-    const ae = RegExp(/github\.com\/([^/]+)\/([^/]+)(\.git)?$/).exec(C.name);
-    if (!ae) {
-      throw re.error(`Invalid GitHub URL: ${C.name}`);
+async function processBaseTargets(a) {
+  const { config: C, logger: q } = a;
+  const re = {};
+  const ae = [];
+  for (const re of C.defaultTargets) {
+    const Ue = RegExp(/github\.com\/([^/]+)\/([^/]+)(\.git)?$/).exec(re.name);
+    if (!Ue) {
+      throw q.error(`Invalid GitHub URL: ${re.name}`);
     }
-    const lt = ae[1];
-    const Pt = ae[2].replace(".git", "");
+    const lt = Ue[1];
+    const Pt = Ue[2].replace(".git", "");
     const Wt = await checkUserRepoPermissions(a, lt, Pt);
-    Ue.push({
-      type: C.type || "main",
+    ae.push({
+      type: re.type || "main",
       owner: lt,
       repo: Pt,
       localDir: external_path_default().join(lt, Pt),
-      url: C.name,
-      filePath: C.type === "dev" ? q.devConfigPath : q.configPath,
+      url: re.name,
+      filePath: re.type === "dev" ? C.devConfigPath : C.configPath,
       readonly: !Wt,
     });
   }
-  Ue.forEach((a) => {
-    ae[buildIdForTarget(a)] = a;
+  ae.forEach((a) => {
+    re[buildIdForTarget(a)] = a;
   });
-  re.info(`Base targets: ${JSON.stringify(ae, null, 2)}`);
-  const lt = C.repository.owner.login;
-  const Pt = C.repository.name;
+  q.info(`Base targets: ${JSON.stringify(re, null, 2)}`);
+  return re;
+}
+async function processRepoConfigs(a, C) {
+  const { payload: q, config: re, logger: ae } = a;
+  const Ue = q.repository.owner.login;
+  const lt = q.repository.name;
+  let Pt, Wt;
   try {
-    const Ue = await getFileContent(a, lt, Pt, q.configPath);
-    const Wt = await getFileContent(a, lt, Pt, q.devConfigPath);
-    if (Ue || Wt) {
-      if (Ue) {
-        const a = {
-          type: "config",
-          owner: lt,
-          repo: Pt,
-          localDir: external_path_default().join(lt, Pt),
-          url: `https://github.com/${lt}/${Pt}.git`,
-          filePath: q.configPath,
-          readonly: false,
-        };
-        ae[buildIdForTarget(a)] = a;
-      }
-      if (Wt) {
-        const a = {
-          type: "dev",
-          owner: lt,
-          repo: Pt,
-          localDir: external_path_default().join(lt, Pt),
-          url: `https://github.com/${lt}/${Pt}.git`,
-          filePath: q.devConfigPath,
-          readonly: false,
-        };
-        ae[buildIdForTarget(a)] = a;
-      }
-    }
-    const Ar = C.repository.owner.login || (C.organization && C.organization.login);
-    if (!Ar) {
-      throw re.error("Organization not found in payload.");
-    }
-    const Er = await getFileContent(a, Ar, ".ubiquity-os", q.configPath);
-    if (!Er) {
-      re.info("No configuration found at repository or organization level.");
-      return ae;
-    }
-    const Ir = await checkOrgPermissions(a, Ar, ".ubiquity-os");
-    const Br = {
-      type: "config",
-      owner: Ar,
-      repo: ".ubiquity-os",
-      localDir: external_path_default().join(Ar, ".ubiquity-os"),
-      url: `https://github.com/${Ar}/.ubiquity-os.git`,
-      filePath: q.configPath,
-      readonly: !Ir,
-    };
-    ae[buildIdForTarget(Br)] = Br;
+    Pt = await getFileContent(a, Ue, lt, re.configPath);
   } catch (a) {
-    re.info(`Error accessing configurations: ${a || "Unknown error"}`);
+    ae.info(`Config file not found in repo: ${Ue}/${lt}/${re.configPath}. Error: ${a instanceof Error ? a.message : String(a)}`);
   }
-  return ae;
+  try {
+    Wt = await getFileContent(a, Ue, lt, re.devConfigPath);
+  } catch (a) {
+    ae.info(`Dev config file not found in repo: ${Ue}/${lt}/${re.devConfigPath}. Error: ${a instanceof Error ? a.message : String(a)}`);
+  }
+  if (Pt || Wt) {
+    if (Pt) {
+      const a = {
+        type: "config",
+        owner: Ue,
+        repo: lt,
+        localDir: external_path_default().join(Ue, lt),
+        url: `https://github.com/${Ue}/${lt}.git`,
+        filePath: re.configPath,
+        readonly: false,
+      };
+      C[buildIdForTarget(a)] = a;
+    }
+    if (Wt) {
+      const a = {
+        type: "dev",
+        owner: Ue,
+        repo: lt,
+        localDir: external_path_default().join(Ue, lt),
+        url: `https://github.com/${Ue}/${lt}.git`,
+        filePath: re.devConfigPath,
+        readonly: false,
+      };
+      C[buildIdForTarget(a)] = a;
+    }
+  }
+  return { repoConfig: Pt, repoDevConfig: Wt };
+}
+async function processOrgConfig(a, C) {
+  const { payload: q, config: re, logger: ae } = a;
+  const Ue = q.repository.owner.login || (q.organization && q.organization.login);
+  if (!Ue) {
+    throw ae.error("Organization not found in payload.");
+  }
+  try {
+    const q = await getFileContent(a, Ue, ".ubiquity-os", re.configPath);
+    if (!q) {
+      ae.info("No configuration found at repository or organization level.");
+      return;
+    }
+    const lt = await checkOrgPermissions(a, Ue, ".ubiquity-os");
+    const Pt = {
+      type: "config",
+      owner: Ue,
+      repo: ".ubiquity-os",
+      localDir: external_path_default().join(Ue, ".ubiquity-os"),
+      url: `https://github.com/${Ue}/.ubiquity-os.git`,
+      filePath: re.configPath,
+      readonly: !lt,
+    };
+    C[buildIdForTarget(Pt)] = Pt;
+  } catch (a) {
+    ae.info(`Organization config file not found: ${Ue}/.ubiquity-os/${re.configPath}. Error: ${a instanceof Error ? a.message : String(a)}`);
+  }
+}
+async function targetBuilder(a) {
+  try {
+    const C = await processBaseTargets(a);
+    const { repoConfig: q, repoDevConfig: re } = await processRepoConfigs(a, C);
+    if (!(q || re)) {
+      await processOrgConfig(a, C);
+    }
+    return C;
+  } catch (C) {
+    a.logger.info(`Error accessing configurations: ${C || "Unknown error"}`);
+    return {};
+  }
 }
 function buildIdForTarget(a) {
   return `${a.owner}/${a.repo}/${a.type}`;
@@ -54999,11 +55013,11 @@ class Completions extends SuperOpenAi {
   constructor(a, C) {
     super(a, C);
   }
-  promptBuilder(a, C, q, re, ae) {
+  promptBuilder(a, C, q, re) {
     return [
       `As a YAML configuration editor, modify the following YAML file according to the user's instructions, ensuring valid syntax and preserving formatting. Your task is to apply the changes while maintaining proper YAML structure.\n\nKEY INSTRUCTIONS:\n1. Preserve all list indicators (hyphens \`-\`), especially for plugin configurations\n2. Validate the modified YAML against the parser code provided below\n3. Use the provided manifests to understand valid property names and default values\n4. **Do not alter any URLs in the configuration unless explicitly instructed**\n\nHere is the original YAML configuration file for ${re}:`,
       a,
-      `Provide only the modified YAML content without any additional explanation, headers, footers, code block markers, or language identifiers.\n\nWhen making changes to plugin configurations, maintain this structure:\n\n# Example of correct plugin formatting\n- uses:\n- plugin: <ORG/OWNER>/<REPO>@main\n  with:\n    property1: value1\n    property2: value2\n\nPLUGIN INSTRUCTIONS:\n- Ensure all plugin configurations are correctly formatted\n- Use the manifests below to understand valid plugin properties and default values\n- Do not remove any existing plugin configurations unless instructed\n- Add new plugin configurations at the end of the file\n- Infer ORG/OWNER and REPO details from the included plugin configurations and manifests\n- DO NOT HALLUCINATE PLUGIN CONFIGURATIONS ALWAYS REFER TO THE MANIFESTS.\n- ALWAYS TARGET MAIN BRANCH FOR PLUGIN CONFIGURATIONS, UNLESS SPECIFIED OTHERWISE.\n\n\nFORMATTING REQUIREMENTS:\n- Preserve all indentation and spacing conventions from the original file\n- Keep all comments intended for human readers—including any URLs within them\n- Only remove commented-out YAML code if specifically instructed\n- Do not remove or alter any documentation comments or URLs\n- If adding new properties, refer to the manifests for proper names and default values\n\nThe YAML parser that will be used to validate your output is shown below. Ensure your modifications comply with this parser:`,
+      `Provide only the modified YAML content without any additional explanation, headers, footers, code block markers, or language identifiers.\n\nWhen making changes to plugin configurations, maintain this structure:\n\n# Example of correct plugin formatting\n- uses:\n- plugin: <ORG/OWNER>/<REPO>@main\n  with:\n    property1: value1\n    property2: value2\n\nPLUGIN INSTRUCTIONS:\n- Ensure all plugin configurations are correctly formatted\n- Use the manifests below to understand valid plugin properties and default values\n- Do not remove any existing plugin configurations unless instructed\n- Add new plugin configurations at the end of the file\n- Infer ORG/OWNER and REPO details from the included plugin configurations and manifests\n- DO NOT REMOVE CONTENT UNLESS SPECIFICALLY INSTRUCTED TO DO SO\n- ALWAYS TARGET MAIN BRANCH FOR PLUGIN CONFIGURATIONS, UNLESS SPECIFIED OTHERWISE.\n\n\nFORMATTING REQUIREMENTS:\n- Preserve all indentation and spacing conventions from the original file\n- Keep all comments intended for human readers—including any URLs within them\n- Only remove commented-out YAML code if specifically instructed\n- Do not remove or alter any documentation comments or URLs\n- If adding new properties, refer to the manifests for proper names and default values\n\nThe YAML parser that will be used to validate your output is shown below. Ensure your modifications comply with this parser:`,
       C,
       `IMPORTANT CONTEXT MANIFESTS:\nThe following manifests define the allowed properties and default values for plugins referenced in the configuration. Use these as your reference when adding or modifying plugin properties:`,
       q
@@ -55012,14 +55026,6 @@ class Completions extends SuperOpenAi {
           return `### ${a.name} - Start\n\`\`\`json\n${JSON.stringify(a)}\n\`\`\`\n### ${a.name} - End\n`;
         })
         .join("\n\n"),
-      `MANIFESTS FOR ADDITIONAL CONTEXT:\nThe following manifests provide additional context for plugins referenced in the configuration. Use these as your reference when adding or modifying plugin properties:`,
-      ae &&
-        ae
-          .map((a) => {
-            this.context.logger.info(`Manifest: ${JSON.stringify(a)}`);
-            return `### ${a.name} - Start\n\`\`\`json\n${JSON.stringify(a)}\n\`\`\`\n### ${a.name} - End\n`;
-          })
-          .join("\n\n"),
     ].join("\n\n===\n\n");
   }
   async createCompletions(a, C, q = 3) {
