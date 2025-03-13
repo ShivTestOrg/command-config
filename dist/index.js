@@ -54863,10 +54863,13 @@ async function processOrgConfig(a, C) {
 }
 async function targetBuilder(a) {
   try {
-    const C = await processBaseTargets(a);
+    const C = {};
     const { repoConfig: q, repoDevConfig: re } = await processRepoConfigs(a, C);
     if (!(q || re)) {
       await processOrgConfig(a, C);
+    }
+    if (Object.keys(C).length === 0) {
+      return await processBaseTargets(a);
     }
     return C;
   } catch (C) {
@@ -54994,19 +54997,26 @@ class PullRequest extends GitSuper {
       this._context.logger.info(`File sha: ${Qr}`);
       await this._context.octokit.rest.repos.createOrUpdateFileContents({ owner: ae, repo: Ue, path: lt, message: q, content: Ir, branch: Ar, sha: Qr });
       this._context.logger.info(`File updated in branch: ${Ar}`);
-      const { data: Fr } = await this._context.octokit.rest.pulls.create({
+      const Fr = this._pullRequestBodyBuilder(this._context, re);
+      const { data: Dr } = await this._context.octokit.rest.pulls.create({
         owner: ae,
         repo: Ue,
         title: `chore: update \`${lt}\``,
-        body: `Ran by: @${this._context.payload.comment.user?.login || this._context.payload.sender.login}\n\nOriginally posted in: ${this._context.payload.comment ? `[comment](${this._context.payload.comment.html_url})` : "issue"}\n        \n> ${re}`,
+        body: Fr,
         head: Ar,
         base: Pt,
       });
-      return { pullRequestUrl: Fr.html_url, branch: Ar };
+      return { pullRequestUrl: Dr.html_url, branch: Ar };
     } catch (a) {
       this._context.logger.error("Error creating pull request:", { stack: a instanceof Error ? a.message : String(a) });
       throw a;
     }
+  }
+  _pullRequestBodyBuilder(a, C) {
+    const { payload: q } = a;
+    const re = q.comment?.user?.login || q.sender.login;
+    const ae = q.comment?.html_url;
+    return `> ${C}.\n\n _Originally posted by @${re} in ${ae}_`;
   }
 }
 class Completions extends SuperOpenAi {
