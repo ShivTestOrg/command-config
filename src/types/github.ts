@@ -1,8 +1,3 @@
-export enum Scope {
-  ORG = "ORG",
-  REPO = "REPO",
-}
-
 export type PluginLocation = string | { owner: string; repo: string; ref?: string };
 
 export type Manifest = {

@@ -17,7 +17,6 @@ export const pluginSettingsSchema = T.Object(
       T.Object({
         name: T.String({ default: "https://github.com/ShivTestOrg/.ubiquity-os.git" }),
         branch: T.String({ default: "main" }),
-        scope: T.Enum({ org: "ORG", repo: "REPO" }, { default: "ORG" }),
         type: T.Enum({ main: "main", dev: "dev" }, { default: "main" }),
       }),
       {

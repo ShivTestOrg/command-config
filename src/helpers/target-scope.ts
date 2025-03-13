@@ -1,10 +1,10 @@
 import path from "path";
 import { Context } from "../types";
-import { Scope } from "../types/github";
 import { Target } from "../types/target";
-import { checkUserRepoPermissions } from "./user-permission";
+import { checkOrgPermissions, checkUserRepoPermissions } from "./user-permission";
+import { getFileContent } from "./get-file-content";
 
-export async function targetBuilder(context: Context, scope: Scope): Promise<Record<string, Target>> {
+export async function targetBuilder(context: Context): Promise<Record<string, Target>> {
   const { payload, config, logger } = context;
   const targetMap: Record<string, Target> = {};
 
@@ -17,8 +17,7 @@ export async function targetBuilder(context: Context, scope: Scope): Promise<Rec
     const owner = match[1];
     const repo = match[2].replace(".git", "");
 
-    // Check Access to the base targets
-    const hasPermission = await checkUserRepoPermissions(context, owner, repo);
+    const hasRepoPermission = await checkUserRepoPermissions(context, owner, repo);
 
     baseTargets.push({
       type: target.type || "main",
@@ -26,9 +25,8 @@ export async function targetBuilder(context: Context, scope: Scope): Promise<Rec
       repo,
       localDir: path.join(owner, repo),
       url: target.name,
-      scope: target.scope === "REPO" ? Scope.REPO : Scope.ORG,
       filePath: target.type === "dev" ? config.devConfigPath : config.configPath,
-      readonly: !hasPermission,
+      readonly: !hasRepoPermission,
     });
   }
 
@@ -39,38 +37,60 @@ export async function targetBuilder(context: Context, scope: Scope): Promise<Rec
 
   logger.info(`Base targets: ${JSON.stringify(targetMap, null, 2)}`);
 
-  if (scope === Scope.REPO) {
-    // For repository scope, only include this repo
-    const repoOwner = payload.repository.owner.login;
-    const repoName = payload.repository.name;
-    // Add config target for the repo
-    const repoTarget: Target = {
-      type: "config",
-      owner: repoOwner,
-      repo: repoName,
-      localDir: path.join(repoOwner, repoName),
-      url: `https://github.com/${repoOwner}/${repoName}.git`,
-      filePath: config.configPath,
-      scope: Scope.REPO,
-      readonly: false,
-    };
-    // Add dev config target for the same repo
-    const repoDevTarget: Target = {
-      ...repoTarget,
-      type: "dev",
-      scope: Scope.REPO,
-      filePath: config.devConfigPath,
-      readonly: false,
-    };
+  // Current repository details
+  const repoOwner = payload.repository.owner.login;
+  const repoName = payload.repository.name;
 
-    targetMap[buildIdForTarget(repoTarget)] = repoTarget;
-    targetMap[buildIdForTarget(repoDevTarget)] = repoDevTarget;
-  } else if (scope === Scope.ORG) {
-    // For organization scope, add the current org for repo target .ubiquity-os.git
+  try {
+    // Try to get repo level configs
+    const repoConfig = await getFileContent(context, repoOwner, repoName, config.configPath);
+    const repoDevConfig = await getFileContent(context, repoOwner, repoName, config.devConfigPath);
+
+    // Add repo level configs if they exist
+    if (repoConfig || repoDevConfig) {
+      // Only add targets for configs that actually exist
+      if (repoConfig) {
+        const repoTarget: Target = {
+          type: "config",
+          owner: repoOwner,
+          repo: repoName,
+          localDir: path.join(repoOwner, repoName),
+          url: `https://github.com/${repoOwner}/${repoName}.git`,
+          filePath: config.configPath,
+          readonly: false,
+        };
+        targetMap[buildIdForTarget(repoTarget)] = repoTarget;
+      }
+
+      // Only add dev config if it exists
+      if (repoDevConfig) {
+        const repoDevTarget: Target = {
+          type: "dev",
+          owner: repoOwner,
+          repo: repoName,
+          localDir: path.join(repoOwner, repoName),
+          url: `https://github.com/${repoOwner}/${repoName}.git`,
+          filePath: config.devConfigPath,
+          readonly: false,
+        };
+        targetMap[buildIdForTarget(repoDevTarget)] = repoDevTarget;
+      }
+    }
+
+    // Fall back to org config if no repo configs exist
     const orgName = payload.repository.owner.login || (payload.organization && payload.organization.login);
     if (!orgName) {
       throw logger.error("Organization not found in payload.");
     }
+
+    // Check if org config exists and user has permission
+    const orgConfig = await getFileContent(context, orgName, ".ubiquity-os", config.configPath);
+    if (!orgConfig) {
+      logger.info("No configuration found at repository or organization level.");
+      return targetMap; // Return just the base targets
+    }
+
+    const hasOrgPermission = await checkOrgPermissions(context, orgName, ".ubiquity-os");
     const orgRepoTarget: Target = {
       type: "config",
       owner: orgName,
@@ -78,13 +98,13 @@ export async function targetBuilder(context: Context, scope: Scope): Promise<Rec
       localDir: path.join(orgName, ".ubiquity-os"),
       url: `https://github.com/${orgName}/.ubiquity-os.git`,
       filePath: config.configPath,
-      scope: Scope.ORG,
-      readonly: false,
+      readonly: !hasOrgPermission,
     };
 
     targetMap[buildIdForTarget(orgRepoTarget)] = orgRepoTarget;
-  } else {
-    throw logger.error("Invalid scope provided.");
+  } catch (error: unknown) {
+    // Log the error but don't throw - allow operation to continue
+    logger.info(`Error accessing configurations: ${error || "Unknown error"}`);
   }
 
   return targetMap;

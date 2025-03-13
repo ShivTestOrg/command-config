@@ -4,8 +4,14 @@
   "ubiquity:listeners": ["issue_comment.created", "pull_request_review_comment.created"],
   "commands": {
     "config": {
-      "ubiquity:example": "/config <scope> <editor_instruction>",
-      "description": "config command with scope and editor_instruction arguments."
+      "ubiquity:example": "/config <editor_instruction>",
+      "description": "Configure the UbiquityOS plugin.",
+      "parameters": {
+        "editor_instruction": {
+          "description": "The instruction to make changes to the configuration.",
+          "type": "string"
+        }
+      }
     }
   },
   "configuration": {

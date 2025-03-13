@@ -1,5 +1,4 @@
 import { Context } from "../types";
-import { Scope } from "../types/github";
 
 export async function checkUserRepoPermissions(context: Context, owner: string, repo: string): Promise<boolean> {
   const { octokit, logger } = context;
@@ -16,33 +15,15 @@ export async function checkUserRepoPermissions(context: Context, owner: string, 
 }
 
 // Function to determine if the user is an admin for a repo/organization
-export async function checkUserPermissions(context: Context, scope?: Scope, owner?: string, repo?: string): Promise<boolean> {
+export async function checkUserPermissions(context: Context, owner?: string, repo?: string): Promise<boolean> {
   // Fetch the sender's username
-  const { payload, logger, octokit, config } = context;
+  const { payload, logger } = context;
 
   // Fetch the sender's username
   const sender = payload.comment.user?.login;
 
   if (!sender) {
     throw logger.error("Sender not found in payload.");
-  }
-
-  // Check permissions for default targets and reject on first failure
-  if (config.defaultTargets && config.defaultTargets.length > 0) {
-    await Promise.all(
-      config.defaultTargets.map(async (target) => {
-        const match = RegExp(/github\.com\/([^/]+)\/([^/]+)(\.git)?$/).exec(target.name);
-        if (!match) {
-          throw logger.error(`Invalid GitHub URL: ${target.name}`);
-        }
-        const targetOwner = match[1];
-        const targetRepo = match[2].replace(".git", "");
-        const hasPermission = await checkUserRepoPermissions(context, targetOwner, targetRepo);
-        if (!hasPermission) {
-          throw new Error(`User ${sender} lacks permission for ${target.name}`);
-        }
-      })
-    );
   }
 
   // Extract repository or organization information
@@ -57,13 +38,37 @@ export async function checkUserPermissions(context: Context, scope?: Scope, owne
 
   const hasPermission = await checkUserRepoPermissions(context, owner, repo);
   logger.info(`User ${sender} has permission for ${owner}/${repo}: ${hasPermission}`);
-  if (scope && scope === "REPO") return hasPermission;
+  return hasPermission;
+}
 
-  // Check user permissions for current organization if scope is not REPO
+export async function checkOrgPermissions(context: Context, owner?: string, repo?: string): Promise<boolean> {
+  const { octokit, logger, payload } = context;
+  const sender = context.payload.comment.user?.login;
+  if (!sender) {
+    throw logger.error("Sender not found in payload.");
+  }
+
+  // Extract repository or organization information
+  const repository = payload.repository;
+  if (!owner) {
+    if (!repository) {
+      throw logger.error("Repository not found in payload.");
+    }
+    owner = repository.organization?.login || repository.owner.login;
+  }
+
+  // Check user permissions for current organization
   const orgPermissions = await octokit.rest.orgs.checkMembershipForUser({
     org: owner,
     username: sender,
   });
+
+  // Check repo access if defined return true if user is a member and has access
+  if (repo) {
+    const hasRepoPermission = await checkUserRepoPermissions(context, owner, repo);
+    return orgPermissions.status !== 302 && hasRepoPermission;
+  }
+
   // eslint-disable-next-line
   // TODO: Handle Privacy Settings for user (hide membership?)
   logger.info(`User ${sender} is a member of ${owner}: ${orgPermissions.headers.status === "204"}: ${orgPermissions.data}`);

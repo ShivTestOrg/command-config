@@ -70,7 +70,7 @@ export class PullRequest extends GitSuper {
         owner,
         repo,
         title: `chore: update \`${filePath}\``,
-        body: `Update to \`${filePath}\` following this instruction:\n\n
+        body: `Ran by: @${this._context.payload.comment.user?.login || this._context.payload.sender.login}
         
 > ${editorInstruction}`,
         head: branchName,

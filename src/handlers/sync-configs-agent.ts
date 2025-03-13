@@ -2,13 +2,13 @@ import { getFileContent } from "../helpers/get-file-content";
 import { fetchAndParseFileContent, processTargetRepos } from "../helpers/process-targets";
 import { targetBuilder } from "../helpers/target-scope";
 import { Context } from "../types";
-import { Manifest, Scope } from "../types/github";
+import { Manifest } from "../types/github";
 
-export async function syncAgent(editorInstruction: string, scope: Scope, context: Context): Promise<string[]> {
+export async function syncAgent(editorInstruction: string, context: Context): Promise<string[]> {
   const { logger, config } = context;
 
-  //Build target scope could be either (ORG | REPO)
-  const targets = await targetBuilder(context, scope);
+  //Build targets are
+  const targets = await targetBuilder(context);
 
   // Use the config to get the parser details
   const match = RegExp(/github\.com\/([^/]+)\/([^/]+)(\.git)?$/).exec(config.parserPath);
@@ -40,7 +40,7 @@ export async function syncAgent(editorInstruction: string, scope: Scope, context
 
   // Run the Repo Config Extractor on the targets (by this point we know the sender has permissions to the targets)
   for (const target of Object.values(targets)) {
-    if (target.scope != scope) continue;
+    if (target.readonly) continue;
     try {
       const prUrl = await processTargetRepos(target, parserCode, editorInstruction, context, manifestStore);
       if (prUrl) prUrls.push(prUrl);

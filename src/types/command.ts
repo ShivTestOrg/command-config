@@ -5,7 +5,6 @@ export const commandSchema = T.Object({
   name: T.Literal("config"),
   parameters: T.Object({
     editorInstruction: T.String(),
-    scope: T.Optional(T.String()),
   }),
 });
 

@@ -39,13 +39,12 @@ describe("Plugin tests", () => {
   });
 
   describe("Sync Config Tests", () => {
-    it("Should create PR and include URL in comment for REPO scope", async () => {
-      const { context } = createContext("/config REPO update dependencies");
+    it("Should create PR and include URL in comment", async () => {
+      const { context } = createContext("/config update dependencies");
       context.command = {
         name: "config",
         parameters: {
           editorInstruction: "update dependencies",
-          scope: "REPO",
         },
       };
 
@@ -66,34 +65,8 @@ describe("Plugin tests", () => {
       expect(pulls[0].html_url).toMatch(/https:\/\/github.com\//);
     });
 
-    it("Should handle sync config command with ORG scope", async () => {
-      const { context } = createContext("/config ORG update dependencies");
-      context.command = {
-        name: "config",
-        parameters: {
-          editorInstruction: "update dependencies",
-          scope: "ORG",
-        },
-      };
-      await runPlugin(context);
-      const comments = db.issueComments.getAll();
-      expect(comments[comments.length - 1].body).toMatch(/Successfully created/);
-    });
-
-    it("Should reject invalid scope value", async () => {
-      const { context } = createContext("/config INVALID update dependencies");
-      try {
-        await runPlugin(context);
-        fail("Expected an error to be thrown");
-      } catch (error) {
-        expect(error).toBeDefined();
-      }
-      const comments = db.issueComments.getAll();
-      expect(comments.length).toBe(1);
-    });
-
     it("Should handle missing editor instructions", async () => {
-      const { context } = createContext("/config REPO");
+      const { context } = createContext("/config");
       try {
         await runPlugin(context);
         fail("Expected an error to be thrown");
