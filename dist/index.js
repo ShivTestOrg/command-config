@@ -23900,8 +23900,8 @@ var __webpack_modules__ = {
       kInterceptors: Rn,
       kLocalAddress: Sn,
       kMaxResponseSize: Fn,
-      kHTTPConnVersion: On,
-      kHost: Dn,
+      kHTTPConnVersion: Dn,
+      kHost: On,
       kHTTP2Session: kn,
       kHTTP2SessionState: Pn,
       kHTTP2BuildRequest: Nn,
@@ -24071,10 +24071,10 @@ var __webpack_modules__ = {
         this[Bn] = Jr;
         this[Kn] = null;
         this[Fn] = Kr > -1 ? Kr : -1;
-        this[On] = "h1";
+        this[Dn] = "h1";
         this[kn] = null;
         this[Pn] = !Zr ? null : { openStreams: 0, maxConcurrentStreams: en != null ? en : 100 };
-        this[Dn] = `${this[Vr].hostname}${this[Vr].port ? `:${this[Vr].port}` : ""}`;
+        this[On] = `${this[Vr].hostname}${this[Vr].port ? `:${this[Vr].port}` : ""}`;
         this[rn] = [];
         this[pn] = 0;
         this[cn] = 0;
@@ -24108,7 +24108,7 @@ var __webpack_modules__ = {
       }
       [Tn](a, C) {
         const q = a.origin || this[Vr].origin;
-        const re = this[On] === "h2" ? Ar[Nn](q, a, C) : Ar[Ln](q, a, C);
+        const re = this[Dn] === "h2" ? Ar[Nn](q, a, C) : Ar[Ln](q, a, C);
         this[rn].push(re);
         if (this[zr]) {
         } else if (Pt.bodyLength(re.body) == null && Pt.isIterable(re.body)) {
@@ -24629,7 +24629,7 @@ var __webpack_modules__ = {
     function onSocketError(a) {
       const { [Yr]: C, [Wr]: q } = this;
       re(a.code !== "ERR_TLS_CERT_ALTNAME_INVALID");
-      if (C[On] !== "h2") {
+      if (C[Dn] !== "h2") {
         if (a.code === "ECONNRESET" && q.statusCode && !q.shouldKeepAlive) {
           q.onMessageComplete();
           return;
@@ -24651,7 +24651,7 @@ var __webpack_modules__ = {
     }
     function onSocketEnd() {
       const { [Wr]: a, [Yr]: C } = this;
-      if (C[On] !== "h2") {
+      if (C[Dn] !== "h2") {
         if (a.statusCode && !a.shouldKeepAlive) {
           a.onMessageComplete();
           return;
@@ -24661,7 +24661,7 @@ var __webpack_modules__ = {
     }
     function onSocketClose() {
       const { [Yr]: a, [Wr]: C } = this;
-      if (a[On] === "h1" && C) {
+      if (a[Dn] === "h1" && C) {
         if (!this[un] && C.statusCode && !C.shouldKeepAlive) {
           C.onMessageComplete();
         }
@@ -24728,7 +24728,7 @@ var __webpack_modules__ = {
             process.emitWarning("H2 support is experimental, expect them to change at any time.", { code: "UNDICI-H2" });
           }
           const C = Mn.connect(a[Vr], { createConnection: () => ae, peerMaxConcurrentStreams: a[Pn].maxConcurrentStreams });
-          a[On] = "h2";
+          a[Dn] = "h2";
           C[Yr] = a;
           C[mn] = ae;
           C.on("error", onHttp2SessionError);
@@ -24898,7 +24898,7 @@ var __webpack_modules__ = {
       return a !== "GET" && a !== "HEAD" && a !== "OPTIONS" && a !== "TRACE" && a !== "CONNECT";
     }
     function write(a, C) {
-      if (a[On] === "h2") {
+      if (a[Dn] === "h2") {
         writeH2(a, a[kn], C);
         return;
       }
@@ -25029,7 +25029,7 @@ var __webpack_modules__ = {
       }
       let Pr;
       const Ur = a[Pn];
-      kr[xn] = Wt || a[Dn];
+      kr[xn] = Wt || a[On];
       kr[Gn] = Ue;
       if (Ue === "CONNECT") {
         C.ref();
@@ -25147,7 +25147,7 @@ var __webpack_modules__ = {
     }
     function writeStream({ h2stream: a, body: C, client: q, request: ae, socket: Ue, contentLength: Wt, header: Ar, expectsPayload: Er }) {
       re(Wt !== 0 || q[Xr] === 0, "stream body cannot be pipelined");
-      if (q[On] === "h2") {
+      if (q[Dn] === "h2") {
         const Qr = lt(C, a, (q) => {
           if (q) {
             Pt.destroy(C, q);
@@ -25225,7 +25225,7 @@ var __webpack_modules__ = {
     }
     async function writeBlob({ h2stream: a, body: C, client: q, request: ae, socket: Ue, contentLength: lt, header: Wt, expectsPayload: Ar }) {
       re(lt === C.size, "blob body must have content length");
-      const Er = q[On] === "h2";
+      const Er = q[Dn] === "h2";
       try {
         if (lt != null && lt !== C.size) {
           throw new Ir();
@@ -25270,7 +25270,7 @@ var __webpack_modules__ = {
             Ar = a;
           }
         });
-      if (q[On] === "h2") {
+      if (q[Dn] === "h2") {
         a.on("close", onDrain).on("drain", onDrain);
         try {
           for await (const q of C) {
@@ -28611,8 +28611,8 @@ var __webpack_modules__ = {
     const { TransformStream: Rn } = q(3774);
     const { getGlobalDispatcher: Sn } = q(2581);
     const { webidl: Fn } = q(4222);
-    const { STATUS_CODES: On } = q(8611);
-    const Dn = ["GET", "HEAD"];
+    const { STATUS_CODES: Dn } = q(8611);
+    const On = ["GET", "HEAD"];
     let kn;
     let Pn = globalThis.ReadableStream;
     class Fetch extends In {
@@ -29078,7 +29078,7 @@ var __webpack_modules__ = {
       if (re.status !== 303 && q.body != null && q.body.source == null) {
         return Promise.resolve(ae());
       }
-      if (([301, 302].includes(re.status) && q.method === "POST") || (re.status === 303 && !Dn.includes(q.method))) {
+      if (([301, 302].includes(re.status) && q.method === "POST") || (re.status === 303 && !On.includes(q.method))) {
         q.method = "GET";
         q.body = null;
         for (const a of fn) {
@@ -29495,7 +29495,7 @@ var __webpack_modules__ = {
                   const ae = C[a + 1].toString("latin1");
                   re[En].append(q, ae);
                 }
-                ae({ status: a, statusText: On[a], headersList: re[En], socket: q });
+                ae({ status: a, statusText: Dn[a], headersList: re[En], socket: q });
                 return true;
               },
             }
@@ -41974,8 +41974,8 @@ var Context = class {
   #R;
   #S = true;
   #F;
-  #O;
   #D;
+  #O;
   #h;
   #k;
   constructor(a, C) {
@@ -41983,7 +41983,7 @@ var Context = class {
     if (C) {
       this.#Q = C.executionCtx;
       this.env = C.env;
-      this.#D = C.notFoundHandler;
+      this.#O = C.notFoundHandler;
       this.#k = C.path;
       this.#h = C.matchResult;
     }
@@ -42041,13 +42041,13 @@ var Context = class {
     this.finalized = true;
   }
   render = (...a) => {
-    this.#O ??= (a) => this.html(a);
-    return this.#O(...a);
+    this.#D ??= (a) => this.html(a);
+    return this.#D(...a);
   };
   setLayout = (a) => (this.#F = a);
   getLayout = () => this.#F;
   setRenderer = (a) => {
-    this.#O = a;
+    this.#D = a;
   };
   header = (a, C, q) => {
     if (C === void 0) {
@@ -42179,8 +42179,8 @@ var Context = class {
     return this.newResponse(null, C ?? 302);
   };
   notFound = () => {
-    this.#D ??= () => new Response();
-    return this.#D(this);
+    this.#O ??= () => new Response();
+    return this.#O(this);
   };
 };
 var compose = (a, C, q) => (re, ae) => {
@@ -42303,7 +42303,7 @@ var hono_base_Hono = class {
     a.routes = this.routes;
     return a;
   }
-  #D = notFoundHandler;
+  #O = notFoundHandler;
   errorHandler = errorHandler;
   route(a, C) {
     const q = this.basePath(a);
@@ -42329,7 +42329,7 @@ var hono_base_Hono = class {
     return this;
   };
   notFound = (a) => {
-    this.#D = a;
+    this.#O = a;
     return this;
   };
   mount(a, C, q) {
@@ -42393,19 +42393,19 @@ var hono_base_Hono = class {
     }
     const ae = this.getPath(a, { env: q });
     const Ue = this.router.match(re, ae);
-    const lt = new Context(a, { path: ae, matchResult: Ue, env: q, executionCtx: C, notFoundHandler: this.#D });
+    const lt = new Context(a, { path: ae, matchResult: Ue, env: q, executionCtx: C, notFoundHandler: this.#O });
     if (Ue[0].length === 1) {
       let a;
       try {
         a = Ue[0][0][0][0](lt, async () => {
-          lt.res = await this.#D(lt);
+          lt.res = await this.#O(lt);
         });
       } catch (a) {
         return this.#L(a, lt);
       }
-      return a instanceof Promise ? a.then((a) => a || (lt.finalized ? lt.res : this.#D(lt))).catch((a) => this.#L(a, lt)) : (a ?? this.#D(lt));
+      return a instanceof Promise ? a.then((a) => a || (lt.finalized ? lt.res : this.#O(lt))).catch((a) => this.#L(a, lt)) : (a ?? this.#O(lt));
     }
-    const Pt = compose(Ue[0], this.errorHandler, this.#D);
+    const Pt = compose(Ue[0], this.errorHandler, this.#O);
     return (async () => {
       try {
         const a = await Pt(lt);
@@ -50646,48 +50646,45 @@ async function checkUserRepoPermissions(a, C, q) {
   const lt = await re.rest.repos.getCollaboratorPermissionLevel({ owner: C, repo: q, username: Ue });
   return lt.data.permission === "admin" || lt.data.permission === "write";
 }
-async function checkUserPermissions(a, C, q, re) {
-  const { payload: ae, logger: Ue, octokit: lt, config: Pt } = a;
-  const Wt = ae.comment.user?.login;
-  if (!Wt) {
-    throw Ue.error("Sender not found in payload.");
+async function checkUserPermissions(a, C, q) {
+  const { payload: re, logger: ae } = a;
+  const Ue = re.comment.user?.login;
+  if (!Ue) {
+    throw ae.error("Sender not found in payload.");
   }
-  if (Pt.defaultTargets && Pt.defaultTargets.length > 0) {
-    await Promise.all(
-      Pt.defaultTargets.map(async (C) => {
-        const q = RegExp(/github\.com\/([^/]+)\/([^/]+)(\.git)?$/).exec(C.name);
-        if (!q) {
-          throw Ue.error(`Invalid GitHub URL: ${C.name}`);
-        }
-        const re = q[1];
-        const ae = q[2].replace(".git", "");
-        const lt = await checkUserRepoPermissions(a, re, ae);
-        if (!lt) {
-          throw new Error(`User ${Wt} lacks permission for ${C.name}`);
-        }
-      })
-    );
-  }
-  const Ar = ae.repository;
-  if (!q || !re) {
-    if (!Ar) {
-      throw Ue.error("Repository not found in payload.");
+  const lt = re.repository;
+  if (!C || !q) {
+    if (!lt) {
+      throw ae.error("Repository not found in payload.");
     }
-    q = Ar.organization?.login || Ar.owner.login;
-    re = Ar.name;
+    C = lt.organization?.login || lt.owner.login;
+    q = lt.name;
   }
-  const Er = await checkUserRepoPermissions(a, q, re);
-  Ue.info(`User ${Wt} has permission for ${q}/${re}: ${Er}`);
-  if (C && C === "REPO") return Er;
-  const Ir = await lt.rest.orgs.checkMembershipForUser({ org: q, username: Wt });
-  Ue.info(`User ${Wt} is a member of ${q}: ${Ir.headers.status === "204"}: ${Ir.data}`);
-  return Ir.status !== 302;
+  const Pt = await checkUserRepoPermissions(a, C, q);
+  ae.info(`User ${Ue} has permission for ${C}/${q}: ${Pt}`);
+  return Pt;
 }
-var Scope;
-(function (a) {
-  a["ORG"] = "ORG";
-  a["REPO"] = "REPO";
-})(Scope || (Scope = {}));
+async function checkOrgPermissions(a, C, q) {
+  const { octokit: re, logger: ae, payload: Ue } = a;
+  const lt = a.payload.comment.user?.login;
+  if (!lt) {
+    throw ae.error("Sender not found in payload.");
+  }
+  const Pt = Ue.repository;
+  if (!C) {
+    if (!Pt) {
+      throw ae.error("Repository not found in payload.");
+    }
+    C = Pt.organization?.login || Pt.owner.login;
+  }
+  const Wt = await re.rest.orgs.checkMembershipForUser({ org: C, username: lt });
+  if (q) {
+    const re = await checkUserRepoPermissions(a, C, q);
+    return Wt.status !== 302 && re;
+  }
+  ae.info(`User ${lt} is a member of ${C}: ${Wt.headers.status === "204"}: ${Wt.data}`);
+  return Wt.status !== 302;
+}
 async function getFileContent(a, C, q, re) {
   const { octokit: ae, logger: Ue } = a;
   const lt = await ae.rest.repos.getContent({ owner: C, repo: q, path: re });
@@ -54781,106 +54778,124 @@ function filterManifestCacheByOwner(a, C) {
 }
 var external_path_ = __nccwpck_require__(6928);
 var external_path_default = __nccwpck_require__.n(external_path_);
-async function targetBuilder(a, C) {
-  const { payload: q, config: re, logger: ae } = a;
-  const Ue = {};
-  const lt = [];
-  for (const C of re.defaultTargets) {
-    const q = RegExp(/github\.com\/([^/]+)\/([^/]+)(\.git)?$/).exec(C.name);
-    if (!q) {
-      throw ae.error(`Invalid GitHub URL: ${C.name}`);
+async function targetBuilder(a) {
+  const { payload: C, config: q, logger: re } = a;
+  const ae = {};
+  const Ue = [];
+  for (const C of q.defaultTargets) {
+    const ae = RegExp(/github\.com\/([^/]+)\/([^/]+)(\.git)?$/).exec(C.name);
+    if (!ae) {
+      throw re.error(`Invalid GitHub URL: ${C.name}`);
     }
-    const Ue = q[1];
-    const Pt = q[2].replace(".git", "");
-    const Wt = await checkUserRepoPermissions(a, Ue, Pt);
-    lt.push({
+    const lt = ae[1];
+    const Pt = ae[2].replace(".git", "");
+    const Wt = await checkUserRepoPermissions(a, lt, Pt);
+    Ue.push({
       type: C.type || "main",
-      owner: Ue,
+      owner: lt,
       repo: Pt,
-      localDir: external_path_default().join(Ue, Pt),
+      localDir: external_path_default().join(lt, Pt),
       url: C.name,
-      scope: C.scope === "REPO" ? Scope.REPO : Scope.ORG,
-      filePath: C.type === "dev" ? re.devConfigPath : re.configPath,
+      filePath: C.type === "dev" ? q.devConfigPath : q.configPath,
       readonly: !Wt,
     });
   }
-  lt.forEach((a) => {
-    Ue[buildIdForTarget(a)] = a;
+  Ue.forEach((a) => {
+    ae[buildIdForTarget(a)] = a;
   });
-  ae.info(`Base targets: ${JSON.stringify(Ue, null, 2)}`);
-  if (C === Scope.REPO) {
-    const a = q.repository.owner.login;
-    const C = q.repository.name;
-    const ae = {
-      type: "config",
-      owner: a,
-      repo: C,
-      localDir: external_path_default().join(a, C),
-      url: `https://github.com/${a}/${C}.git`,
-      filePath: re.configPath,
-      scope: Scope.REPO,
-      readonly: false,
-    };
-    const lt = { ...ae, type: "dev", scope: Scope.REPO, filePath: re.devConfigPath, readonly: false };
-    Ue[buildIdForTarget(ae)] = ae;
-    Ue[buildIdForTarget(lt)] = lt;
-  } else if (C === Scope.ORG) {
-    const a = q.repository.owner.login || (q.organization && q.organization.login);
-    if (!a) {
-      throw ae.error("Organization not found in payload.");
+  re.info(`Base targets: ${JSON.stringify(ae, null, 2)}`);
+  const lt = C.repository.owner.login;
+  const Pt = C.repository.name;
+  try {
+    const Ue = await getFileContent(a, lt, Pt, q.configPath);
+    const Wt = await getFileContent(a, lt, Pt, q.devConfigPath);
+    if (Ue || Wt) {
+      if (Ue) {
+        const a = {
+          type: "config",
+          owner: lt,
+          repo: Pt,
+          localDir: external_path_default().join(lt, Pt),
+          url: `https://github.com/${lt}/${Pt}.git`,
+          filePath: q.configPath,
+          readonly: false,
+        };
+        ae[buildIdForTarget(a)] = a;
+      }
+      if (Wt) {
+        const a = {
+          type: "dev",
+          owner: lt,
+          repo: Pt,
+          localDir: external_path_default().join(lt, Pt),
+          url: `https://github.com/${lt}/${Pt}.git`,
+          filePath: q.devConfigPath,
+          readonly: false,
+        };
+        ae[buildIdForTarget(a)] = a;
+      }
     }
-    const C = {
+    const Ar = C.repository.owner.login || (C.organization && C.organization.login);
+    if (!Ar) {
+      throw re.error("Organization not found in payload.");
+    }
+    const Er = await getFileContent(a, Ar, ".ubiquity-os", q.configPath);
+    if (!Er) {
+      re.info("No configuration found at repository or organization level.");
+      return ae;
+    }
+    const Ir = await checkOrgPermissions(a, Ar, ".ubiquity-os");
+    const Br = {
       type: "config",
-      owner: a,
+      owner: Ar,
       repo: ".ubiquity-os",
-      localDir: external_path_default().join(a, ".ubiquity-os"),
-      url: `https://github.com/${a}/.ubiquity-os.git`,
-      filePath: re.configPath,
-      scope: Scope.ORG,
-      readonly: false,
+      localDir: external_path_default().join(Ar, ".ubiquity-os"),
+      url: `https://github.com/${Ar}/.ubiquity-os.git`,
+      filePath: q.configPath,
+      readonly: !Ir,
     };
-    Ue[buildIdForTarget(C)] = C;
-  } else {
-    throw ae.error("Invalid scope provided.");
+    ae[buildIdForTarget(Br)] = Br;
+  } catch (a) {
+    re.info(`Error accessing configurations: ${a || "Unknown error"}`);
   }
-  return Ue;
+  return ae;
 }
 function buildIdForTarget(a) {
   return `${a.owner}/${a.repo}/${a.type}`;
 }
-async function syncAgent(a, C, q) {
-  const { logger: re, config: ae } = q;
-  const Ue = await targetBuilder(q, C);
-  const lt = RegExp(/github\.com\/([^/]+)\/([^/]+)(\.git)?$/).exec(ae.parserPath);
-  if (!lt) {
-    throw re.error(`Invalid GitHub URL: ${ae.parserPath}`);
+async function syncAgent(a, C) {
+  const { logger: q, config: re } = C;
+  const ae = await targetBuilder(C);
+  const Ue = RegExp(/github\.com\/([^/]+)\/([^/]+)(\.git)?$/).exec(re.parserPath);
+  if (!Ue) {
+    throw q.error(`Invalid GitHub URL: ${re.parserPath}`);
   }
-  const Pt = lt[1];
-  const Wt = lt[2].replace(".git", "");
-  const Ar = await getFileContent(q, Pt, Wt, "src/github/types/plugin-configuration.ts");
-  if (!Ar) throw re.error("Parser code not found.");
-  const Er = [];
-  const Ir = {};
-  for (const a of Object.values(Ue)) {
+  const lt = Ue[1];
+  const Pt = Ue[2].replace(".git", "");
+  const Wt = await getFileContent(C, lt, Pt, "src/github/types/plugin-configuration.ts");
+  if (!Wt) throw q.error("Parser code not found.");
+  const Ar = [];
+  const Er = {};
+  for (const a of Object.values(ae)) {
     try {
-      re.info(`Fetching and parsing file content for target: ${JSON.stringify(a)}`);
-      await fetchAndParseFileContent(q, a, Ir);
+      q.info(`Fetching and parsing file content for target: ${JSON.stringify(a)}`);
+      await fetchAndParseFileContent(C, a, Er);
     } catch (C) {
-      re.warn(`Error fetching and parsing file content for target: ${C} & ${JSON.stringify(a)}`);
+      q.warn(`Error fetching and parsing file content for target: ${C} & ${JSON.stringify(a)}`);
       continue;
     }
   }
-  for (const ae of Object.values(Ue)) {
-    if (ae.scope != C) continue;
+  for (const re of Object.values(ae)) {
+    if (re.readonly) continue;
     try {
-      const C = await processTargetRepos(ae, Ar, a, q, Ir);
-      if (C) Er.push(C);
+      const q = await processTargetRepos(re, Wt, a, C, Er);
+      if (q) Ar.push(q);
     } catch (a) {
-      re.warn(`Error processing target: ${a} & ${JSON.stringify(ae)}`);
+      q.warn(`Error processing target: ${a} & ${JSON.stringify(re)}`);
       continue;
     }
   }
-  return Er;
+  return Ar;
 }
 async function syncConfigs(a) {
   const { payload: C, logger: q, eventName: re } = a;
@@ -54890,51 +54905,37 @@ async function syncConfigs(a) {
   if (re === "pull_request_review_comment.created") {
     throw q.error("This is a pull request, not supported for now");
   }
-  const ae = extractEditorInstructionAndScope(a);
+  const ae = extractEditorInstruction(a);
   if (!ae) {
     return { status: 200, reason: q.info("No editor instruction found in comment. Skipping.").logMessage.raw };
   }
-  const { editorInstruction: Ue, scope: lt } = ae;
-  if ((await checkUserPermissions(a, lt)) === false) {
+  const { editorInstruction: Ue } = ae;
+  if ((await checkUserPermissions(a)) === false) {
     throw q.error("User does not have the required permissions. Skipping.");
   }
-  const Pt = await syncAgent(Ue, lt, a);
-  if (Pt.length === 0) {
+  const lt = await syncAgent(Ue, a);
+  if (lt.length === 0) {
     return { status: 200, reason: q.info("No pull requests created.").logMessage.raw };
   } else {
-    const C = Pt.length > 1 ? "s" : "";
-    const re = Pt.map((a) => `- ${a}`).join("\n");
-    const ae = `Successfully created ${Pt.length} pull request${C}:\n\n${re}`;
-    await a.commentHandler.postComment(a, q.ok(ae));
-    return { status: 200, reason: q.info(ae).logMessage.raw };
+    const C = lt.map((a) => `- ${a}`).join("\n");
+    await a.commentHandler.postComment(a, q.ok(C));
+    return { status: 200, reason: q.info(C).logMessage.raw };
   }
 }
-function extractEditorInstructionAndScope(a) {
+function extractEditorInstruction(a) {
   const { payload: C, command: q, logger: re } = a;
   let ae;
-  let Ue;
   if (q && q.name !== "config") {
     ae = q.parameters.editorInstruction;
-    Ue = q.parameters.scope;
   } else if (C.comment.body.trim().startsWith("/config")) {
-    const a = C.comment.body.trim().replace("/config", "").trim();
-    const q = a.split(" ");
-    const lt = q[0]?.toUpperCase();
-    if (!lt || lt.trim() === "") {
-      throw re.error("Scope value cannot be empty. Please provide a valid scope value.");
-    }
-    if (!Object.values(Scope).includes(lt)) {
-      throw re.error(`Invalid scope value: ${lt}. Valid values are: ${Object.values(Scope).join(", ")}`);
-    }
-    Ue = lt === Scope.ORG ? Scope.ORG : Scope.REPO;
-    ae = q.slice(1).join(" ");
+    ae = C.comment.body.trim().replace("/config", "").trim();
   } else {
     return null;
   }
   if (!ae || ae.trim() === "") {
     throw re.error("Editor instruction cannot be empty. Please provide editing instructions.");
   }
-  return { editorInstruction: ae, scope: Ue };
+  return { editorInstruction: ae };
 }
 function isCommentEvent(a) {
   return a.eventName === "issue_comment.created" || a.eventName === "pull_request_review_comment.created";
@@ -54983,7 +54984,7 @@ class PullRequest extends GitSuper {
         owner: ae,
         repo: Ue,
         title: `chore: update \`${lt}\``,
-        body: `Update to \`${lt}\` following this instruction:\n\n\n        \n> ${re}`,
+        body: `Ran by: @${this._context.payload.comment.user?.login || this._context.payload.sender.login}\n        \n> ${re}`,
         head: Ar,
         base: Pt,
       });
@@ -60124,7 +60125,6 @@ const pluginSettingsSchema = Type.Object(
       Type.Object({
         name: Type.String({ default: "https://github.com/ShivTestOrg/.ubiquity-os.git" }),
         branch: Type.String({ default: "main" }),
-        scope: Type.Enum({ org: "ORG", repo: "REPO" }, { default: "ORG" }),
         type: Type.Enum({ main: "main", dev: "dev" }, { default: "main" }),
       }),
       { default: [{ name: "https://github.com/ShivTestOrg/.ubiquity-os.git", type: "dev" }] }

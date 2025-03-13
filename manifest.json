@@ -53,19 +53,6 @@
               "default": "main",
               "type": "string"
             },
-            "scope": {
-              "default": "ORG",
-              "anyOf": [
-                {
-                  "const": "ORG",
-                  "type": "string"
-                },
-                {
-                  "const": "REPO",
-                  "type": "string"
-                }
-              ]
-            },
             "type": {
               "default": "main",
               "anyOf": [
