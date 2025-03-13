@@ -51,8 +51,8 @@ describe("Plugin tests", () => {
       await runPlugin(context);
       const comments = db.issueComments.getAll();
       const lastComment = comments[comments.length - 1].body;
-      expect(lastComment).toMatch(/Successfully created/);
-      expect(lastComment).toMatch(/https:\/\/github.com\//);
+      expect(lastComment).toMatch(/\[!TIP\]/);
+      expect(lastComment).toMatch(/- https:\/\/github.com\//);
 
       // Verify git operations updated the database
       const gitRefs = db.git_refs.getAll();
