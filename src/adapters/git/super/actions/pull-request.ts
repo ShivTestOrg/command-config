@@ -66,15 +66,13 @@ export class PullRequest extends GitSuper {
       this._context.logger.info(`File updated in branch: ${branchName}`);
 
       // Create pull request with initial body
+      const prBody = this._pullRequestBodyBuilder(this._context, editorInstruction);
+
       const { data: pr } = await this._context.octokit.rest.pulls.create({
         owner,
         repo,
         title: `chore: update \`${filePath}\``,
-        body: `Ran by: @${this._context.payload.comment.user?.login || this._context.payload.sender.login}
-
-Originally posted in: ${this._context.payload.comment ? `[comment](${this._context.payload.comment.html_url})` : "issue"}
-        
-> ${editorInstruction}`,
+        body: prBody,
         head: branchName,
         base: defaultBranch,
       });
@@ -87,5 +85,15 @@ Originally posted in: ${this._context.payload.comment ? `[comment](${this._conte
       this._context.logger.error("Error creating pull request:", { stack: error instanceof Error ? error.message : String(error) });
       throw error;
     }
+  }
+
+  private _pullRequestBodyBuilder(context: Context, editorInstruction: string): string {
+    const { payload } = context;
+    const sender = payload.comment?.user?.login || payload.sender.login;
+    const commentUrl = payload.comment?.html_url;
+
+    return `> ${editorInstruction}.
+
+ _Originally posted by @${sender} in ${commentUrl}_`;
   }
 }
