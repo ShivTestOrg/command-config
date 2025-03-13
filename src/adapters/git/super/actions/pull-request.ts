@@ -71,6 +71,8 @@ export class PullRequest extends GitSuper {
         repo,
         title: `chore: update \`${filePath}\``,
         body: `Ran by: @${this._context.payload.comment.user?.login || this._context.payload.sender.login}
+
+Originally posted in: ${this._context.payload.comment ? `[comment](${this._context.payload.comment.html_url})` : "issue"}
         
 > ${editorInstruction}`,
         head: branchName,
