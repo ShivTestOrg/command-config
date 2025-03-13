@@ -4,11 +4,11 @@ import { Target } from "../types/target";
 import { checkOrgPermissions, checkUserRepoPermissions } from "./user-permission";
 import { getFileContent } from "./get-file-content";
 
-export async function targetBuilder(context: Context): Promise<Record<string, Target>> {
-  const { payload, config, logger } = context;
+async function processBaseTargets(context: Context): Promise<Record<string, Target>> {
+  const { config, logger } = context;
   const targetMap: Record<string, Target> = {};
-
   const baseTargets: Target[] = [];
+
   for (const target of config.defaultTargets) {
     const match = RegExp(/github\.com\/([^/]+)\/([^/]+)(\.git)?$/).exec(target.name);
     if (!match) {
@@ -36,58 +36,80 @@ export async function targetBuilder(context: Context): Promise<Record<string, Ta
   });
 
   logger.info(`Base targets: ${JSON.stringify(targetMap, null, 2)}`);
+  return targetMap;
+}
 
-  // Current repository details
+async function processRepoConfigs(
+  context: Context,
+  targetMap: Record<string, Target>
+): Promise<{ repoConfig: string | undefined; repoDevConfig: string | undefined }> {
+  const { payload, config, logger } = context;
   const repoOwner = payload.repository.owner.login;
   const repoName = payload.repository.name;
+  let repoConfig, repoDevConfig;
 
   try {
     // Try to get repo level configs
-    const repoConfig = await getFileContent(context, repoOwner, repoName, config.configPath);
-    const repoDevConfig = await getFileContent(context, repoOwner, repoName, config.devConfigPath);
+    repoConfig = await getFileContent(context, repoOwner, repoName, config.configPath);
+  } catch (error: unknown) {
+    logger.info(
+      `Config file not found in repo: ${repoOwner}/${repoName}/${config.configPath}. Error: ${error instanceof Error ? error.message : String(error)}`
+    );
+  }
 
-    // Add repo level configs if they exist
-    if (repoConfig || repoDevConfig) {
-      // Only add targets for configs that actually exist
-      if (repoConfig) {
-        const repoTarget: Target = {
-          type: "config",
-          owner: repoOwner,
-          repo: repoName,
-          localDir: path.join(repoOwner, repoName),
-          url: `https://github.com/${repoOwner}/${repoName}.git`,
-          filePath: config.configPath,
-          readonly: false,
-        };
-        targetMap[buildIdForTarget(repoTarget)] = repoTarget;
-      }
+  try {
+    repoDevConfig = await getFileContent(context, repoOwner, repoName, config.devConfigPath);
+  } catch (error: unknown) {
+    logger.info(
+      `Dev config file not found in repo: ${repoOwner}/${repoName}/${config.devConfigPath}. Error: ${error instanceof Error ? error.message : String(error)}`
+    );
+  }
 
-      // Only add dev config if it exists
-      if (repoDevConfig) {
-        const repoDevTarget: Target = {
-          type: "dev",
-          owner: repoOwner,
-          repo: repoName,
-          localDir: path.join(repoOwner, repoName),
-          url: `https://github.com/${repoOwner}/${repoName}.git`,
-          filePath: config.devConfigPath,
-          readonly: false,
-        };
-        targetMap[buildIdForTarget(repoDevTarget)] = repoDevTarget;
-      }
+  if (repoConfig || repoDevConfig) {
+    if (repoConfig) {
+      const repoTarget: Target = {
+        type: "config",
+        owner: repoOwner,
+        repo: repoName,
+        localDir: path.join(repoOwner, repoName),
+        url: `https://github.com/${repoOwner}/${repoName}.git`,
+        filePath: config.configPath,
+        readonly: false,
+      };
+      targetMap[buildIdForTarget(repoTarget)] = repoTarget;
     }
 
-    // Fall back to org config if no repo configs exist
-    const orgName = payload.repository.owner.login || (payload.organization && payload.organization.login);
-    if (!orgName) {
-      throw logger.error("Organization not found in payload.");
+    if (repoDevConfig) {
+      const repoDevTarget: Target = {
+        type: "dev",
+        owner: repoOwner,
+        repo: repoName,
+        localDir: path.join(repoOwner, repoName),
+        url: `https://github.com/${repoOwner}/${repoName}.git`,
+        filePath: config.devConfigPath,
+        readonly: false,
+      };
+      targetMap[buildIdForTarget(repoDevTarget)] = repoDevTarget;
     }
+  }
 
-    // Check if org config exists and user has permission
+  return { repoConfig, repoDevConfig };
+}
+
+async function processOrgConfig(context: Context, targetMap: Record<string, Target>): Promise<void> {
+  const { payload, config, logger } = context;
+  const orgName = payload.repository.owner.login || (payload.organization && payload.organization.login);
+
+  if (!orgName) {
+    throw logger.error("Organization not found in payload.");
+  }
+
+  try {
+    // Try to get org level configs
     const orgConfig = await getFileContent(context, orgName, ".ubiquity-os", config.configPath);
     if (!orgConfig) {
       logger.info("No configuration found at repository or organization level.");
-      return targetMap; // Return just the base targets
+      return;
     }
 
     const hasOrgPermission = await checkOrgPermissions(context, orgName, ".ubiquity-os");
@@ -103,11 +125,26 @@ export async function targetBuilder(context: Context): Promise<Record<string, Ta
 
     targetMap[buildIdForTarget(orgRepoTarget)] = orgRepoTarget;
   } catch (error: unknown) {
-    // Log the error but don't throw - allow operation to continue
-    logger.info(`Error accessing configurations: ${error || "Unknown error"}`);
+    logger.info(
+      `Organization config file not found: ${orgName}/.ubiquity-os/${config.configPath}. Error: ${error instanceof Error ? error.message : String(error)}`
+    );
   }
+}
 
-  return targetMap;
+export async function targetBuilder(context: Context): Promise<Record<string, Target>> {
+  try {
+    const targetMap = await processBaseTargets(context);
+    const { repoConfig, repoDevConfig } = await processRepoConfigs(context, targetMap);
+
+    if (!(repoConfig || repoDevConfig)) {
+      await processOrgConfig(context, targetMap);
+    }
+
+    return targetMap;
+  } catch (error: unknown) {
+    context.logger.info(`Error accessing configurations: ${error || "Unknown error"}`);
+    return {};
+  }
 }
 
 // ID Builder for the target

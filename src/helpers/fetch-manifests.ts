@@ -28,7 +28,7 @@ async function fetchManifest(plugin: PluginLocation, manifestCache: Record<strin
       manifestCache[plugin] = manifest;
       return manifest;
     } catch (e) {
-      console.warn(`Could not fetch manifest for ${plugin}: ${e}`);
+      context.logger.warn(`Could not fetch manifest for ${plugin}: ${e}`);
     }
 
     return null;
@@ -59,7 +59,7 @@ async function fetchManifest(plugin: PluginLocation, manifestCache: Record<strin
     manifestCache[cacheKey] = manifest;
     return manifest;
   } catch (e) {
-    console.warn(`Could not fetch manifest for ${owner}/${repo}/${ref}: ${e}`);
+    context.logger.warn(`Could not fetch manifest for Owner: ${owner}, Repo: ${repo}, Ref: ${ref}: ${e}`);
   }
 
   return null;

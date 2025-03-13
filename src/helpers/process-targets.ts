@@ -2,7 +2,7 @@ import { getFileContent } from "./get-file-content";
 import { Context } from "../types";
 import { Target } from "../types/target";
 import { applyChanges } from "./apply-changes";
-import { parseConfig, PluginLocation } from "./validator";
+import { parseConfig } from "./validator";
 import { Manifest } from "../types/github";
 import { fetchManifests } from "./fetch-manifests";
 
@@ -13,11 +13,11 @@ export async function processTargetRepos(
   context: Context,
   manifestStore?: Record<string, Manifest>
 ): Promise<string | undefined> {
-  const { currentFileContents, manifests, additionalManifests } = await fetchAndParseFileContent(context, target, manifestStore);
+  const { currentFileContents, manifests } = await fetchAndParseFileContent(context, target, manifestStore);
 
   // Build Prompt
   const { adapters } = context;
-  const prompt = adapters.openai.completions.promptBuilder(currentFileContents, parserCode, manifests, target.url, additionalManifests);
+  const prompt = adapters.openai.completions.promptBuilder(currentFileContents, parserCode, manifests, target.url);
 
   context.logger.info(`Prompt: ${prompt}`);
   // Update the file with the new content by making a LLM call
@@ -42,25 +42,5 @@ export async function fetchAndParseFileContent(context: Context, target: Target,
   const manifestCache: Record<string, Manifest> = manifestStore || {};
   // Fetch Manifest
   const manifests = await fetchManifests(parsedUrls, manifestCache, context);
-  // Fetch Additional Manifests
-  const additionalManifests: Manifest[] = filterManifestCacheByOwner(manifestCache, parsedUrls);
-  return { currentFileContents, manifests, additionalManifests };
-}
-
-function filterManifestCacheByOwner(manifestCache: Record<string, Manifest>, target: PluginLocation[]): Manifest[] {
-  const manifestOwners = target.map((t) => (typeof t === "string" ? t : `${t.owner}/${t.repo}/${t.ref}`));
-  return Object.keys(manifestCache)
-    .filter((key) => {
-      return !manifestOwners.includes(key);
-    })
-    .filter((key) => {
-      //Now We will check for keys starting with the owner (For now we ignore worker plugins)
-      for (const refKey of manifestOwners) {
-        const owner = refKey.split("/")[0]; // Handle the case where the target is a string
-        if (key.startsWith(owner)) {
-          return true;
-        }
-      }
-    })
-    .map((key) => manifestCache[key]);
+  return { currentFileContents, manifests };
 }

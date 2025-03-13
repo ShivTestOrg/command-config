@@ -22,7 +22,7 @@ export class Completions extends SuperOpenAi {
     super(client, context);
   }
 
-  promptBuilder(originalContent: string, parserCode: string, manifests: Manifest[], repoUrl: string, additionalManifests?: Manifest[]): string {
+  promptBuilder(originalContent: string, parserCode: string, manifests: Manifest[], repoUrl: string): string {
     // Build the prompt
     return [
       `As a YAML configuration editor, modify the following YAML file according to the user's instructions, ensuring valid syntax and preserving formatting. Your task is to apply the changes while maintaining proper YAML structure.
@@ -54,7 +54,7 @@ PLUGIN INSTRUCTIONS:
 - Do not remove any existing plugin configurations unless instructed
 - Add new plugin configurations at the end of the file
 - Infer ORG/OWNER and REPO details from the included plugin configurations and manifests
-- DO NOT HALLUCINATE PLUGIN CONFIGURATIONS ALWAYS REFER TO THE MANIFESTS.
+- DO NOT REMOVE CONTENT UNLESS SPECIFICALLY INSTRUCTED TO DO SO
 - ALWAYS TARGET MAIN BRANCH FOR PLUGIN CONFIGURATIONS, UNLESS SPECIFIED OTHERWISE.
 
 
@@ -81,20 +81,6 @@ ${JSON.stringify(manifest)}
 ### ${manifest.name} - End\n`;
         })
         .join("\n\n"),
-
-      `MANIFESTS FOR ADDITIONAL CONTEXT:
-The following manifests provide additional context for plugins referenced in the configuration. Use these as your reference when adding or modifying plugin properties:`,
-      additionalManifests &&
-        additionalManifests
-          .map((manifest) => {
-            this.context.logger.info(`Manifest: ${JSON.stringify(manifest)}`);
-            return `### ${manifest.name} - Start
-\`\`\`json
-${JSON.stringify(manifest)}
-\`\`\`
-### ${manifest.name} - End\n`;
-          })
-          .join("\n\n"),
     ].join("\n\n===\n\n");
   }
 
