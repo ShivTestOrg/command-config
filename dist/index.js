@@ -54934,7 +54934,7 @@ async function syncConfigs(a) {
   if (lt.length === 0) {
     return { status: 200, reason: q.info("No pull requests created.").logMessage.raw };
   } else {
-    const C = lt.map((a) => `- ${a}`).join("\n");
+    const C = lt.map((a) => `- ${a}`).join("\n\n");
     await a.commentHandler.postComment(a, q.ok(C));
     return { status: 200, reason: q.info(C).logMessage.raw };
   }
@@ -60128,22 +60128,21 @@ var config = __nccwpck_require__(2874);
 const envSchema = Type.Object({
   LOG_LEVEL: Type.Optional(Type.Enum(LOG_LEVEL, { default: LOG_LEVEL.INFO })),
   KERNEL_PUBLIC_KEY: Type.Optional(Type.String()),
-  BASE_URL: Type.String({ default: "https://openrouter.ai/api/v1" }),
   OPENROUTER_API_KEY: Type.String(),
 });
 const pluginSettingsSchema = Type.Object(
   {
     baseUrl: Type.String({ default: "https://openrouter.ai/api/v1" }),
-    parserPath: Type.String({ default: "https://github.com/ShivTestOrg/ubiquity-os-kernel.git" }),
+    parserPath: Type.String({ default: "https://github.com/ubiquity-os/ubiquity-os-kernel.git" }),
     configPath: Type.String({ default: ".github/.ubiquity-os.config.yml" }),
     devConfigPath: Type.String({ default: ".github/.ubiquity-os.config.dev.yml" }),
     defaultTargets: Type.Array(
       Type.Object({
-        name: Type.String({ default: "https://github.com/ShivTestOrg/.ubiquity-os.git" }),
+        name: Type.String({ default: "https://github.com/ubiquity-os/.ubiquity-os.git" }),
         branch: Type.String({ default: "main" }),
         type: Type.Enum({ main: "main", dev: "dev" }, { default: "main" }),
       }),
-      { default: [{ name: "https://github.com/ShivTestOrg/.ubiquity-os.git", type: "dev" }] }
+      { default: [{ name: "https://github.com/ubiquity-os/.ubiquity-os.git", type: "dev" }] }
     ),
   },
   { default: {} }
