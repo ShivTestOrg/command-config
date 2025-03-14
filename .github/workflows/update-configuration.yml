@@ -1,0 +1,36 @@
+name: "Update Configuration and Build"
+
+on:
+  workflow_dispatch:
+    inputs:
+      parserPath:
+        description: "Path to the parser configuration"
+        required: true
+        default: "ubiquity-os/ubiquity-os-kernel"
+  push:
+
+jobs:
+  update:
+    name: "Update Configuration & Build"
+    runs-on: ubuntu-latest
+    permissions: write-all
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Fetch latest configuration
+        env:
+          PARSER_PATH: ${{ github.event.inputs.parserPath || 'ubiquity-os/ubiquity-os-kernel' }}
+        run: |
+          mkdir -p src/config
+          curl -o src/config/plugin-configuration.ts "https://raw.githubusercontent.com/${PARSER_PATH}/main/src/config/plugin-configuration.ts"
+
+      - uses: ubiquity-os/action-deploy-plugin@main
+        with:
+          treatAsEsm: true
+          sourcemap: true
+          pluginEntry: "${{ github.workspace }}/src/action.ts"
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
