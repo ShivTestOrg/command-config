@@ -1,4 +1,4 @@
-name: "autoedit"
+name: "command-config"
 
 on:
   workflow_dispatch:

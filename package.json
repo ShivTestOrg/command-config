@@ -1,7 +1,7 @@
 {
-  "name": "@ubiquity-os/autoedit",
+  "name": "@ubiquity-os-marketplace/command-config",
   "version": "1.0.0",
-  "description": "Ubiquibot plugin template repository with TypeScript support.",
+  "description": "Use plain english to change our organization configs for UbiquityOS.",
   "author": "Ubiquity DAO",
   "license": "MIT",
   "main": "src/worker.ts",
@@ -21,7 +21,7 @@
     "knip": "knip --config .github/knip.ts",
     "knip-ci": "knip --no-exit-code --reporter json --config .github/knip.ts",
     "test": "cross-env NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest --setupFiles dotenv/config --coverage",
-    "worker": "wrangler dev --env dev --port 4000 --ip 100.72.255.83",
+    "worker": "wrangler dev --env dev --port 4000",
     "prepare": "husky"
   },
   "keywords": [

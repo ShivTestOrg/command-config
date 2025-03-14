@@ -54,8 +54,7 @@ PLUGIN INSTRUCTIONS:
 - Do not remove any existing plugin configurations unless instructed
 - Add new plugin configurations at the end of the file
 - Infer ORG/OWNER and REPO details from the included plugin configurations and manifests
-- DO NOT REMOVE CONTENT UNLESS SPECIFICALLY INSTRUCTED TO DO SO
-- ALWAYS TARGET MAIN BRANCH FOR PLUGIN CONFIGURATIONS, UNLESS SPECIFIED OTHERWISE.
+- DO NOT REMOVE CONTENT UNLESS SPECIFICALLY INSTRUCTED TO DO SO.
 
 
 FORMATTING REQUIREMENTS:

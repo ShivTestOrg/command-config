@@ -1,6 +1,6 @@
 {
-  "name": "autoedit",
-  "description": "Edits configs based on natural language commands.",
+  "name": "command-config",
+  "description": "Edits UbiquityOS configuration files based on natural language queries.",
   "ubiquity:listeners": ["issue_comment.created", "pull_request_review_comment.created"],
   "commands": {
     "config": {
